@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Professor: Pedro Monteiro de Almeida Junior">
+
+<title>Análise de sobrevivência</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="analise_sobrevivencia_files/libs/clipboard/clipboard.min.js"></script>
+<script src="analise_sobrevivencia_files/libs/quarto-html/quarto.js"></script>
+<script src="analise_sobrevivencia_files/libs/quarto-html/popper.min.js"></script>
+<script src="analise_sobrevivencia_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="analise_sobrevivencia_files/libs/quarto-html/anchor.min.js"></script>
+<link href="analise_sobrevivencia_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="analise_sobrevivencia_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="analise_sobrevivencia_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="analise_sobrevivencia_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="analise_sobrevivencia_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Análise de sobrevivência</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Professor: Pedro Monteiro de Almeida Junior </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="conteúdo-programático" class="level1">
+<h1>Conteúdo programático</h1>
+<ol type="1">
+<li><strong>Conceitos básicos em análise de dados de sobrevivência</strong>
+<ul>
+<li><p>Tempos de falha e censura</p></li>
+<li><p>Exemplos de uso da análise de sobrevivência</p></li>
+<li><p>Representação de dados de sobrevivência</p></li>
+<li><p>Funções de interesse e suas relações</p></li>
+</ul></li>
+<li><strong>Técnicas não paramétricas para análise de sobrevivência</strong>
+<ul>
+<li><p>Estimador não paramétrico de Kaplan-Meier</p></li>
+<li><p>Comparação entre curvas de sobrevivência</p></li>
+</ul></li>
+<li><strong>Métodos paramétricos para análise de sobrevivência</strong>
+<ul>
+<li><p>Distribuições básicas em sobrevivência (Exponencial, Weibull e lognormal)</p></li>
+<li><p>Procedimentos para a escolha de uma distribuição</p></li>
+<li><p>Exemplos práticos no R</p></li>
+</ul></li>
+<li><strong>Modelos de regressão para a análise de dados de sobrevivência</strong>
+<ul>
+<li><p>Modelo de regressão exponencial</p></li>
+<li><p>Modelo de regressão Weibull</p></li>
+<li><p>Modelo de regressão Lognormal</p></li>
+<li><p>Análise de Resíduos</p></li>
+<li><p>Exemplos práticos no R</p></li>
+</ul></li>
+<li><strong>Modelo de riscos proporcionais de Cox</strong>
+<ul>
+<li><p>Modelo de Cox</p></li>
+<li><p>Estimação e interpretação dos parâmetros</p></li>
+<li><p>Análise de resíduos</p></li>
+<li><p>Exemplos práticos no R</p></li>
+</ul></li>
+</ol>
+</section>
+<section id="referência-bibliográfica-principal" class="level1">
+<h1>Referência bibliográfica principal</h1>
+<p>[1] E. A. Colosimo, S. R. Giolo, ANÁLISE DE SOBREVIVÊNCIA APLICADA , Edgard Blucher, São Paulo, 2006.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/livro_imagem.jpg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="introdução-a-análise-de-sobrevivência" class="level1">
+<h1>Introdução a análise de sobrevivência</h1>
+<p>O pontapé inicial da análise de sobrevivência foi na área da saúde. Entretanto, ela se aplica em diversas outras áreas de aplicação. É comum se deparar com situações que é necessário obter o tempo até a ocorrência de determinado evento. Por exemplo:</p>
+<ul>
+<li><p>Tempo até a cura de um paciente</p></li>
+<li><p>Tempo até a inadimplência de um cliente</p></li>
+<li><p>Tempo até a ocorrência de fraude</p></li>
+<li><p>etc …</p></li>
+</ul>
+<p>Dessa forma, conseguimos determinar a sobrevida de um paciente, produto, clientes, etc… Aqui no curso, o objetivo é avaliar as principais técnicas de análise de sobrevivência e aplicá-las em diversas áres do nosso conhecimento. A sequir, vamos ver os principais conceitos em sobrevivência.</p>
+</section>
+<section id="conceitos-iniciais" class="level1">
+<h1>CONCEITOS INICIAIS</h1>
+<p>Em análise de sobrevivência, a nossa variável de interesse é o tempo até a ocorrência de um determinado evento. Esse tempo é o que chamamos de <strong>tempo de falha</strong>. Na área da saúde por exemplo, o tempo de falha poderia ser: o <u>tempo até a cura</u> de um paciente, <u>tempo até a reincidência</u> de uma doença ou <u>tempo até o falecimento</u> do paciente.</p>
+<p>Os dados para análise de sobrevivência envolvem uma resposta que é avaliada sobre um período de tempo, que na maioria das vezes será difícil acompanhar todas as observações até a ocorrência do evento. Dessa forma teremos no estudo a presença de observações incompletas. Daí vem o conceito de censura nos dados.</p>
+<p><strong>Censura:</strong> a principal característica de dados de sobrevivência é a presença de censura, que é a observação parcial da resposta. Por exemplo, em algumas situações, o acompanhamento do indivíduo presente no estudo é interrompido ( o indivíduo mudou de cidade, faleceu, o estudo finalizou antes de ocorrer o evento desejado, etc…).</p>
+<p><strong>Observação:</strong> Sem a presença de censura, as técnicas estatísticas clássicas, como análise de regressão e análise de experimento poderiam ser usadas na análise desse tipo de dado. Por exemplo:</p>
+<p><em>Suponha que o interesse seja o de comparar o tempo médio de vida de três grupos de pacientes. Se não houver censuras, podemos usar a análise de variância para fazer a comparação entre os grupos de pacientes usando o tempo médio de vida. Entretanto, se houver censuras, não teremos a informações de pacientes que não concluíram o estudo. Portanto o uso de técnicas de análise de sobrevivência se torna indispensável nesses casos.</em></p>
+</section>
+<section id="caracterizando-dados-de-sobrevivência" class="level1">
+<h1>Caracterizando dados de sobrevivência</h1>
+<p>Os dados de sobrevivência são caracterizados por: (i) tempos de falha e (ii) censuras. Estas duas características constituem a nossa variável resposta (ou de interesse). A seguir vamos discutir essas características individualmente.</p>
+<section id="tempo-de-falha" class="level2">
+<h2 class="anchored" data-anchor-id="tempo-de-falha">Tempo de Falha</h2>
+<p><u>Tempo de Sobrevivência ou Falha</u>: Tempo até a ocorrência do evento de interesse.</p>
+<p>O tempo de falha é constituído por três elementos:</p>
+<p><u>Elementos que definem o tempo de falha:</u></p>
+<ol type="1">
+<li><p>A escala de medida</p></li>
+<li><p>O tempo inicial</p></li>
+<li><p>O evento de interesse</p></li>
+</ol>
+<p>O tempo de sobrevivência vai do tempo inicial até a ocorrência do evento de interesse usando a escala de medida definida.</p>
+</section>
+<section id="censura" class="level2">
+<h2 class="anchored" data-anchor-id="censura">Censura</h2>
+<p>É importante ressaltar que mesmo sendo incompletas as observações censuradas nos fornecem informações sobre os tempos de falha. A omissão dessas observações no cálculo das estatísticas de interesse pode acarretar em conclusões viciadas.</p>
+<section id="tipos-de-censura" class="level3">
+<h3 class="anchored" data-anchor-id="tipos-de-censura">TIPOS DE CENSURA:</h3>
+<ol type="1">
+<li><p><strong>Censura à direita:</strong> O tempo de falha é superior ao tempo registrado. Desprezar essa informação faria com que o risco de ocorrência do evento de interesse fosse superestimado pois o tempo até a falha é desconhecido mas o evento de interesse não ocorreu até o último momento observado. Existem três conhecidos mecanismos de censura à direita.</p></li>
+<li><p><strong>Censura do Tipo I:</strong> O estudo será terminado após um período préestabelecido de tempo. As observações cujo evento de interesse não foi observado até este tempo são ditas censuradas.</p></li>
+<li><p><strong>Censura do Tipo II:</strong> O estudo será terminado após ter ocorrido o evento de interesse para um número pré-estabelecido de observações.</p></li>
+<li><p><strong>Censura Aleatória:</strong> Ocorre se a observação for retirada no decorrer do estudo sem ter ocorrido o evento de interesse ou se o evento de interesse ocorrer por uma razão diferente da estudada.</p></li>
+<li><p><strong>Censura Intervalar:</strong> ocorre quando o evento ocorreu em um certo intervalo. Isto é, o tempo exato da falha não é conhecido exatamente mas pertence a um intervalo. Ocorre por exemplo em estudos em que pacientes são acompanhados em visitas periódicas.</p>
+<p><strong>Ilustração dos tipos de censura:</strong></p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/exemplos_censura.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Fonte: Colosimo &amp; Giolo (2006)</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+</section>
+<section id="representação-dos-dados-de-sobrevivência" class="level1">
+<h1>Representação dos dados de sobrevivência</h1>
+<p>Os dados de sobrevivência para o indivíduo i <span class="math inline">\(( i = 1, \ldots, n)\)</span> sob estudo são representados, em geral, pelo par <span class="math inline">\((T_i,C_i)\)</span>, sendo <span class="math inline">\(T_i\)</span> o tempo de falha ou censura e <span class="math inline">\(C_i\)</span> a variável indicadora de falha ou censura, isto é,</p>
+<p><span class="math display">\[
+C_i = \left\{ \begin{array}{ll}
+1,&amp; \text{se } T_i \text{ é um tempo de falha} \\
+0,&amp; \text{se } T_i \text{ é um tempo censurado}
+\end{array} \right.
+\]</span></p>
+<p>Assim, a variável de interesse em análise de sobrevivência é representada por duas colunas ( Tempo até a falha e censura).</p>
+<section id="estrutura-dos-banco-de-dados-de-sobrevivência" class="level2">
+<h2 class="anchored" data-anchor-id="estrutura-dos-banco-de-dados-de-sobrevivência">Estrutura dos banco de dados de sobrevivência</h2>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Indivíduo (i)</th>
+<th>Tempo (T_i)</th>
+<th>Censura (C_i)</th>
+<th>covariável (X_i)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>10</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>15</td>
+<td>0</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>30</td>
+<td>1</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exemplos-de-dados-de-sobrevivência" class="level2">
+<h2 class="anchored" data-anchor-id="exemplos-de-dados-de-sobrevivência">Exemplos de Dados de Sobrevivência</h2>
+<p>Em diversas situações podemos usar técnicas de análise de sobrevivência. A área de maior destaque para essa técnica é a área médica. Podemos usar a análise de sobrevivência para identificar fatores de prognóstico para uma doença, comparação de tratamentos (uma prática bastante comum na área de oncologia, no qual podemos testar se um novo tratamento é melhor que o tratamento usual, ou seja, podemos avaliar se o tempo de sobrevivência de pacientes que aderiram ao novo tratamento é maior). A seguir vamos apresentar alguns exemplos da aplicação de sobrevivência.</p>
+<section id="dados-de-hepatite" class="level3">
+<h3 class="anchored" data-anchor-id="dados-de-hepatite">1. Dados de Hepatite</h3>
+<p>Um estudo clínico aleatorizado foi realizado para investigar o efeito da terapia com esteróide no tratamento de hepatite viral aguda. 29 pacientes com esta doença foram aleatorizados para receber um placebo ou o tratamento com esteróide. Cada paciente foi acompanhado por 16 semanas ou até a morte (evento de interesse) ou até a perda de acompanhamento. Os tempos de sobrevivência observados, em semanas, para os dois grupos são apresentados são dados a seguir:</p>
+<table class="table">
+<caption>Tabela: Tempos em dia observados no estudo da hepatite</caption>
+<colgroup>
+<col style="width: 36%">
+<col style="width: 30%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="smallcaps">Grupos</span></th>
+<th><span class="smallcaps">Tempo</span></th>
+<th><span class="smallcaps">Censura</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">1</span></td>
+<td><span class="smallcaps">0</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">2</span></td>
+<td><span class="smallcaps">0</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">3</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">3</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">3</span></td>
+<td><span class="smallcaps">0</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">5</span></td>
+<td><span class="smallcaps">0</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">5</span></td>
+<td><span class="smallcaps">0</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Controle</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">1</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">1</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">1</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">1</span></td>
+<td><span class="smallcaps">0</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">4</span></td>
+<td><span class="smallcaps">0</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">5</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">7</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">8</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">10</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">10</span></td>
+<td><span class="smallcaps">0</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">12</span></td>
+<td><span class="smallcaps">0</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="even">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="smallcaps">Esteróide</span></td>
+<td><span class="smallcaps">16</span></td>
+<td><span class="smallcaps">1</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="outros-exemplos" class="level3">
+<h3 class="anchored" data-anchor-id="outros-exemplos">Outros exemplos:</h3>
+<ol type="1">
+<li><em>Em experimentos padrões na investigação de substâncias cancerígenas, animais em laboratórios são sujeitos a doses de substâncias e então são observados para ver se eles desenvolvem tumores. A principal variável de interesse pode ser o tempo até a ocorrência de tumores ou o tempo até a morte.</em></li>
+<li><em>Itens manufaturados de componentes eletrônicos são frequentemente sujeitos a testes de vida para obter informações sobre sua duração. Em laboratórios os itens são observados até a falha.</em></li>
+<li>em análise de crédito, podemos estudar o comportamento de clientes para identificar fatores que impactam o tempo até a primeira inadimplência.</li>
+</ol>
+</section>
+</section>
+<section id="funções-usadas-para-especificar-o-tempo-de-sobrevivência" class="level2">
+<h2 class="anchored" data-anchor-id="funções-usadas-para-especificar-o-tempo-de-sobrevivência">Funções usadas para especificar o tempo de sobrevivência</h2>
+<p>O tempo de sobrevivência é uma variável aleatória T, contínua e positiva. Sendo assim, podemos atribuir alguma distribuição de probabilidade para T que pode ser especificada por algumas funções usadas na análise de sobrevivência, dentre as principais estão a função de sobrevivência e taxa de falha. A seguir, vamos apresentar algumas dessas funções.</p>
+<section id="função-de-densidade" class="level3">
+<h3 class="anchored" data-anchor-id="função-de-densidade">1. Função de densidade</h3>
+<p>No contexto de sobrevivência a função <span class="math inline">\(f(t)\)</span> pode ser interpretada como limite da probabilidade de um indivíduo sofrer um evento em um pequeno intervalo por unidade de tempo.</p>
+<p>Esta função é definida por</p>
+<p><span class="math display">\[
+f(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t&lt;T&lt;t+\Delta t)}{\Delta t}
+\]</span></p>
+<p>Na <strong>ausência de censuras</strong> a f.d.p. pode ser estimada como a proporção de indivíduos que falham em um intervalo por unidade de tempo.</p>
+<p><span class="math display">\[
+\hat{f}(t)=\frac{\text{ Número de ocorrências em }(t, t+\Delta t)}{\left(\text{Número total de ocorrências }\right) \times(\Delta t)}
+\]</span></p>
+</section>
+<section id="função-de-sobrevivência" class="level3">
+<h3 class="anchored" data-anchor-id="função-de-sobrevivência">2. Função de sobrevivência</h3>
+<p>A <strong>função de sobrevivência</strong> é uma das mais importantes e usadas funções em análise de sobrevivência. A função de sobrevivência é definida como a probabilidade de uma observação não falhar (sobreviver) até um certo tempo <em>t.</em> Em termos probabilísticos, isto é escrito como:</p>
+<p><span class="math display">\[
+S(t) = P(T \geq t).
+\]</span></p>
+<p>Dessa forma, a <u>distribuição acumulada</u> é definida como:</p>
+<p><span class="math display">\[
+P(T \leq t) = 1 - S(t)
+\]</span></p>
+<p>ou seja,a <strong>distribuição acumulada</strong> é a probabilidade de uma observação <strong>não sobreviver</strong> ao tempo <em>t</em>. Na Figura abaixo, temos um exemplo de comparação de curvas de sobrevivência entre dois grupos.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/curvas_sobrevivencia.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Fonte: Colosimo &amp; Giolo (2006)</figcaption><p></p>
+</figure>
+</div>
+<p>Como podemos ver, as curvas de sobrevivência para os dois grupos são diferentes. Em 10 anos, a taxa de sobrevivência para o grupo 1 é de aproximadamente 0.9, enquanto que para o grupo 2 é de 0.5.</p>
+<p>Podemos estimar a curva de sobrevivência, quando <u>não há censuras</u>, da seguinte forma:</p>
+<p><span class="math display">\[
+\hat S_x(t) = \frac{ \text{ Número de indivíduos sob risco no início do intervalo de tempo x }}{ \text{Número total de indivíduos} }
+\]</span></p>
+</section>
+<section id="função-de-taxa-de-falha" class="level3">
+<h3 class="anchored" data-anchor-id="função-de-taxa-de-falha">3. Função de Taxa de Falha:</h3>
+<p>A função taxa de falha é definida como a probabilidade de um indivíduo sofrer o evento entre o tempo <span class="math inline">\(t\)</span> e <span class="math inline">\(t+\Delta t\)</span>, dado que ele sobreviveu até o tempo <span class="math inline">\(t\)</span>.</p>
+<p>Expressa o risco instantâneo de ocorrência de um evento em um pequeno intervalo de tempo, dado que até então o evento não tenha ocorrido.</p>
+<p><span class="math display">\[
+h(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t \leq T&lt;t+\Delta t \mid T \geq t)}{\Delta t}
+\]</span></p>
+<p><strong>IMPORTANTE:</strong> h(t) é uma taxa e não uma probabilidade, pode assumir qualquer valor positivo.</p>
+<p>Na ausência de censura a função de risco é estimada por</p>
+<p><span class="math display">\[
+\hat{h}(t)=\frac{N(t)}{R(t) \times \Delta t}
+\]</span></p>
+<p><span class="math inline">\(\mathrm{N}(\mathrm{t})\)</span> : Número de eventos observados em cada intervalo de tempo (iniciando em t).</p>
+<p><span class="math inline">\(R(t)\)</span> : Número de observações sob risco no início do intervalo.</p>
+<p><span class="math inline">\(\Delta t\)</span> : amplitude do intervalo.</p>
+</section>
+<section id="exemplo-no-r" class="level3">
+<h3 class="anchored" data-anchor-id="exemplo-no-r">Exemplo no R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Criando o dataset</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Grupos <span class="ot">=</span> <span class="fu">c</span>( <span class="fu">rep</span>( <span class="st">"Controle"</span>, <span class="dv">15</span> ), <span class="fu">rep</span>( <span class="st">"Esteroide"</span>, <span class="dv">14</span> )  )</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Tempo <span class="ot">=</span> <span class="fu">c</span>( <span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">16</span>, <span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>  )</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Censura <span class="ot">=</span> <span class="fu">c</span>( <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">11</span>), <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>  )</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">=</span> <span class="fu">data.frame</span>( Grupos, Tempo, Censura )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Selecionando apenas dados sem censura</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">=</span> dados <span class="sc">%&gt;%</span> <span class="fu">filter</span>( Censura <span class="sc">==</span> <span class="dv">1</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exercícios" class="level3">
+<h3 class="anchored" data-anchor-id="exercícios">Exercícios</h3>
+<ol type="1">
+<li>Um grande número de indivíduos foi acompanhado para estudar o aparecimento de um certo sintoma. Os indivíduos foram incluídos ao longo do estudo e foi considerado como resposta de interesse a idade em que este sintoma apareceu pela primeira vez. Para os seis indivíduos selecionados e descritos a seguir, identifique o tipo de censura apresentado.</li>
+</ol>
+<!-- -->
+<ol type="a">
+<li><p>O primeiro indivíduo entrou no estudo com 25 anos já apresentando o sintoma.</p></li>
+<li><p>Outros dois indivíduos entraram no estudo com 20 e 28 anos e não apresentaram o sintoma até o encerramento do estudo.</p></li>
+<li><p>Outros dois indivíduos entraram com 35 e 40 anos e apresentaram o sintoma no segundo e no sexto exames respectivamente, após terem entrado no estudo. Os exames foram realizados a cada dois anos.</p></li>
+<li><p>O último indivíduo selecionado entrou no estudo com 36 anos e mudou da cidade depois de 4 anos sem ter apresentado o sintoma.</p></li>
+</ol>
+</section>
+<section id="section" class="level3">
+<h3 class="anchored" data-anchor-id="section"></h3>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
