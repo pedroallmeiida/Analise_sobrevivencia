@@ -487,8 +487,8 @@ P(T \leq t) = 1 - S(t)
 \hat S_x(t) = \frac{ \text{ Número de indivíduos sob risco no início do intervalo de tempo x }}{ \text{Número total de indivíduos} }
 \]</span></p>
 </section>
-<section id="função-de-taxa-de-falha" class="level3">
-<h3 class="anchored" data-anchor-id="função-de-taxa-de-falha">3. Função de Taxa de Falha:</h3>
+<section id="função-de-taxa-de-falha-ou-risco" class="level3">
+<h3 class="anchored" data-anchor-id="função-de-taxa-de-falha-ou-risco">3. Função de Taxa de Falha (ou risco):</h3>
 <p>A função taxa de falha é definida como a probabilidade de um indivíduo sofrer o evento entre o tempo <span class="math inline">\(t\)</span> e <span class="math inline">\(t+\Delta t\)</span>, dado que ele sobreviveu até o tempo <span class="math inline">\(t\)</span>.</p>
 <p>Expressa o risco instantâneo de ocorrência de um evento em um pequeno intervalo de tempo, dado que até então o evento não tenha ocorrido.</p>
 <p><span class="math display">\[
@@ -502,6 +502,34 @@ h(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t \leq T&lt;t+\Delta t \mid T \geq t
 <p><span class="math inline">\(\mathrm{N}(\mathrm{t})\)</span> : Número de eventos observados em cada intervalo de tempo (iniciando em t).</p>
 <p><span class="math inline">\(R(t)\)</span> : Número de observações sob risco no início do intervalo.</p>
 <p><span class="math inline">\(\Delta t\)</span> : amplitude do intervalo.</p>
+<section id="comportamento-da-função-de-risco" class="level4">
+<h4 class="anchored" data-anchor-id="comportamento-da-função-de-risco">Comportamento da função de risco</h4>
+<p>A função de risco permite analisar o risco de um indivíduo sofrer um evento em um determinado tempo <span class="math inline">\(t\)</span>, dado que ele já sobreviveu até aquele momento. Por exemplo, qual é o risco de um cliente se tornar inadimplente logo após a liberação de um crédito ? Será que o risco é constante ao longo do tempo ? É provável que não. Dessa forma, podemos ter vários tipos de comportamento de risco.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/exemplos_riscos.png" class="img-fluid figure-img" alt="Fonte: Carvalho et al. (2019)"></p>
+<p></p><figcaption class="figure-caption">Fonte: Carvalho et al.&nbsp;(2019)</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="função-de-risco-falha-acumulado" class="level3">
+<h3 class="anchored" data-anchor-id="função-de-risco-falha-acumulado">Função de risco (falha) acumulado</h3>
+<p>A função de risco acumulado <span class="math inline">\(\Lambda(t)\)</span> mede o risco de ocorrênia do evento até um determinado tempo <span class="math inline">\(t\)</span>. Matematicamente, isso significa a soma de todos os riscos em todos os tempos até o tempo <span class="math inline">\(t\)</span>. Como o tempo é uma variável aleatória contínua, <span class="math inline">\(T\)</span>, o risco acumulado é dado por:</p>
+<p><span class="math display">\[
+\Lambda(t)=\int_0^t \lambda(u) d(u)
+\]</span></p>
+</section>
+<section id="relações-entre-as-funções" class="level3">
+<h3 class="anchored" data-anchor-id="relações-entre-as-funções">Relações entre as funções</h3>
+<p>Para <span class="math inline">\(T\)</span> uma variável aleatória contínua e não negativa, tem-se, em termos das funções definidas anteriormente, algumas relações matemáticas são estabelecidas:</p>
+<p><span class="math display">\[
+\begin{align}
+&amp;\lambda(t) = \frac{f(t)}{S(t)} = - \frac{d}{d t}[\log S(t)], \\ \\
+&amp;\Lambda(t) = - \log S(t), \\ \\
+&amp;S(t) = \exp\{ - \Lambda(t) \}
+\end{align}
+\]</span> Portanto, com o conhecimento de uma das funções, por exemplo <span class="math inline">\(S(t)\)</span>, implica no conhecimento das demais funções, isto é, <span class="math inline">\(F(t)\)</span>, <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(\lambda(t)\)</span> e <span class="math inline">\(\Lambda(t)\)</span>.</p>
 </section>
 <section id="exemplo-no-r" class="level3">
 <h3 class="anchored" data-anchor-id="exemplo-no-r">Exemplo no R</h3>
@@ -535,8 +563,10 @@ h(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t \leq T&lt;t+\Delta t \mid T \geq t
 <li><p>O último indivíduo selecionado entrou no estudo com 36 anos e mudou da cidade depois de 4 anos sem ter apresentado o sintoma.</p></li>
 </ol>
 </section>
-<section id="section" class="level3">
-<h3 class="anchored" data-anchor-id="section"></h3>
+<section id="técnicas-não-paramétricas-em-sobrevivência" class="level3">
+<h3 class="anchored" data-anchor-id="técnicas-não-paramétricas-em-sobrevivência">Técnicas não paramétricas em sobrevivência</h3>
+<p>Anteriormente, vimos como estimar a função de sobrevivência e as demais quando não existe a presença de censura. Entretanto, na grande maioria dos casos vamos ter dados censurados, consequentemente teremos que usar técnicas que lidem com dados com censura. Nesta seção, vamos ver técnicas não paramétricas adequadas para esse tipo de situação.</p>
+<p>O estimador Kaplan-Meier, também conhecido como estimador produto-limite, será utilizado para estimar a função de sobrevivência, <span class="math inline">\(S(t)\)</span>, e o estimador de Nelson-Aalen para estimar a função de risco acumulado, <span class="math inline">\(\Lambda(t)\)</span>. Na abordagem não paramétrica não é feita qualquer suposição sobre a distribuição probabilística do tempo de sobrevivência <span class="math inline">\(T\)</span>, e assim não são estimados parâmetros estatísticos.</p>
 </section>
 </section>
 </section>
