@@ -461,7 +461,10 @@ f(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t&lt;T&lt;t+\Delta t)}{\Delta t}
 \]</span></p>
 <p>Na <strong>ausência de censuras</strong> a f.d.p. pode ser estimada como a proporção de indivíduos que falham em um intervalo por unidade de tempo.</p>
 <p><span class="math display">\[
-\hat{f}(t)=\frac{\text{ Número de ocorrências em }(t, t+\Delta t)}{\left(\text{Número total de ocorrências }\right) \times(\Delta t)}
+\begin{align}
+\hat{f}(t)&amp;=\frac{\text{ Número de ocorrências em }(t, t+\Delta t)}{\left(\text{Número total de ocorrências }\right) \times(\Delta t)} \\
+&amp;= \frac{N(t)}{\left(\text{Número total de ocorrências }\right) \times(\Delta t)}
+\end{align}
 \]</span></p>
 </section>
 <section id="função-de-sobrevivência" class="level3">
@@ -484,7 +487,10 @@ P(T \leq t) = 1 - S(t)
 <p>Como podemos ver, as curvas de sobrevivência para os dois grupos são diferentes. Em 10 anos, a taxa de sobrevivência para o grupo 1 é de aproximadamente 0.9, enquanto que para o grupo 2 é de 0.5.</p>
 <p>Podemos estimar a curva de sobrevivência, quando <u>não há censuras</u>, da seguinte forma:</p>
 <p><span class="math display">\[
-\hat S_x(t) = \frac{ \text{ Número de indivíduos sob risco no início do intervalo de tempo x }}{ \text{Número total de indivíduos} }
+\begin{align}
+\hat S_x(t) &amp;= \frac{ \text{ Número de indivíduos sob risco no início do intervalo de tempo x }}{ \text{Número total de indivíduos} } \\
+&amp;= \frac{R(t)}{\text{Número total de indivíduos}}
+\end{align}
 \]</span></p>
 </section>
 <section id="função-de-taxa-de-falha-ou-risco" class="level3">
@@ -492,7 +498,9 @@ P(T \leq t) = 1 - S(t)
 <p>A função taxa de falha é definida como a probabilidade de um indivíduo sofrer o evento entre o tempo <span class="math inline">\(t\)</span> e <span class="math inline">\(t+\Delta t\)</span>, dado que ele sobreviveu até o tempo <span class="math inline">\(t\)</span>.</p>
 <p>Expressa o risco instantâneo de ocorrência de um evento em um pequeno intervalo de tempo, dado que até então o evento não tenha ocorrido.</p>
 <p><span class="math display">\[
+\begin{align}
 h(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t \leq T&lt;t+\Delta t \mid T \geq t)}{\Delta t}
+\end{align}
 \]</span></p>
 <p><strong>IMPORTANTE:</strong> h(t) é uma taxa e não uma probabilidade, pode assumir qualquer valor positivo.</p>
 <p>Na ausência de censura a função de risco é estimada por</p>
@@ -531,25 +539,6 @@ h(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t \leq T&lt;t+\Delta t \mid T \geq t
 \end{align}
 \]</span> Portanto, com o conhecimento de uma das funções, por exemplo <span class="math inline">\(S(t)\)</span>, implica no conhecimento das demais funções, isto é, <span class="math inline">\(F(t)\)</span>, <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(\lambda(t)\)</span> e <span class="math inline">\(\Lambda(t)\)</span>.</p>
 </section>
-<section id="exemplo-no-r" class="level3">
-<h3 class="anchored" data-anchor-id="exemplo-no-r">Exemplo no R</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Criando o dataset</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Grupos <span class="ot">=</span> <span class="fu">c</span>( <span class="fu">rep</span>( <span class="st">"Controle"</span>, <span class="dv">15</span> ), <span class="fu">rep</span>( <span class="st">"Esteroide"</span>, <span class="dv">14</span> )  )</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Tempo <span class="ot">=</span> <span class="fu">c</span>( <span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">16</span>, <span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>  )</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Censura <span class="ot">=</span> <span class="fu">c</span>( <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">11</span>), <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>  )</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">=</span> <span class="fu">data.frame</span>( Grupos, Tempo, Censura )</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Selecionando apenas dados sem censura</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">=</span> dados <span class="sc">%&gt;%</span> <span class="fu">filter</span>( Censura <span class="sc">==</span> <span class="dv">1</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
 <section id="exercícios" class="level3">
 <h3 class="anchored" data-anchor-id="exercícios">Exercícios</h3>
 <ol type="1">
@@ -563,10 +552,37 @@ h(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t \leq T&lt;t+\Delta t \mid T \geq t
 <li><p>O último indivíduo selecionado entrou no estudo com 36 anos e mudou da cidade depois de 4 anos sem ter apresentado o sintoma.</p></li>
 </ol>
 </section>
+<section id="exemplo-no-r" class="level3">
+<h3 class="anchored" data-anchor-id="exemplo-no-r">Exemplo no R</h3>
+<p>Carregando as bibliotecas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Criando o dataset sem dados censurados</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Criando o dataset</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Grupos <span class="ot">=</span> <span class="fu">c</span>( <span class="fu">rep</span>( <span class="st">"Controle"</span>, <span class="dv">15</span> ), <span class="fu">rep</span>( <span class="st">"Esteroide"</span>, <span class="dv">14</span> )  )</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Tempo <span class="ot">=</span> <span class="fu">c</span>( <span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">16</span>, <span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>  )</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Censura <span class="ot">=</span> <span class="fu">c</span>( <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">11</span>), <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>  )</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">=</span> <span class="fu">data.frame</span>( Grupos, Tempo, Censura )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Selecionando apenas dados sem censura</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">=</span> dados <span class="sc">%&gt;%</span> <span class="fu">filter</span>( Censura <span class="sc">==</span> <span class="dv">1</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 <section id="técnicas-não-paramétricas-em-sobrevivência" class="level3">
 <h3 class="anchored" data-anchor-id="técnicas-não-paramétricas-em-sobrevivência">Técnicas não paramétricas em sobrevivência</h3>
 <p>Anteriormente, vimos como estimar a função de sobrevivência e as demais quando não existe a presença de censura. Entretanto, na grande maioria dos casos vamos ter dados censurados, consequentemente teremos que usar técnicas que lidem com dados com censura. Nesta seção, vamos ver técnicas não paramétricas adequadas para esse tipo de situação.</p>
 <p>O estimador Kaplan-Meier, também conhecido como estimador produto-limite, será utilizado para estimar a função de sobrevivência, <span class="math inline">\(S(t)\)</span>, e o estimador de Nelson-Aalen para estimar a função de risco acumulado, <span class="math inline">\(\Lambda(t)\)</span>. Na abordagem não paramétrica não é feita qualquer suposição sobre a distribuição probabilística do tempo de sobrevivência <span class="math inline">\(T\)</span>, e assim não são estimados parâmetros estatísticos.</p>
+</section>
+<section id="estimador-de-kaplan-meier" class="level3">
+<h3 class="anchored" data-anchor-id="estimador-de-kaplan-meier">Estimador de Kaplan-Meier</h3>
+<p>O estimador de Kaplan-Meier é usado para estimar a sobrevivência ( <span class="math inline">\(S(t)\)</span> ) quando existe a presença de censura nos dados. Esse estimador é uma adaptação da função de sobrevivência empírica definida anteriormente quando não temos censuras.</p>
+<p><em><strong>Observação:</strong> Quando não existe censuras o estimador de Kaplan-Meier é igual ao definido na seção anterior.</em></p>
+<p>O estimador de Kaplan-Meier, na sua construção, considera tanto os intervalos de tempo quanto forem o número de falhas distintas. Os limites dos intervalos de tempo são os tempos de falha da amostra.</p>
 </section>
 </section>
 </section>
