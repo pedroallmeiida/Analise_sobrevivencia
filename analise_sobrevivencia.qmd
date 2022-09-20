@@ -335,7 +335,7 @@ dados = dados %>% filter( Censura == 1 )
 
 Anteriormente, vimos como estimar a função de sobrevivência e as demais quando não existe a presença de censura. Entretanto, na grande maioria dos casos vamos ter dados censurados, consequentemente teremos que usar técnicas que lidem com dados com censura. Nesta seção, vamos ver técnicas não paramétricas adequadas para esse tipo de situação.
 
-O estimador Kaplan-Meier, também conhecido como estimador produto-limite, será utilizado para estimar a função de sobrevivência, $S(t)$, e o estimador de Nelson-Aalen para estimar a função de risco acumulado, $\Lambda(t)$. Na abordagem não paramétrica não é feita qualquer suposição sobre a distribuição probabilística do tempo de sobrevivência $T$, e assim não são estimados parâmetros estatísticos.
+O estimador Kaplan-Meier, também conhecido como estimador produto-limite, será utilizado para estimar a função de sobrevivência, $S(t)$, e o estimador de Nelson-Aalen para estimar a função de risco acumulado, $\Lambda(t)$. Na abordagem não paramétrica não é feita qualquer suposição sobre a distribuição probabilística do tempo de sobrevivência $T$.
 
 ### Estimador de Kaplan-Meier
 
@@ -343,4 +343,81 @@ O estimador de Kaplan-Meier é usado para estimar a sobrevivência ( $S(t)$ ) qu
 
 ***Observação:** Quando não existe censuras o estimador de Kaplan-Meier é igual ao definido na seção anterior.*
 
-O estimador de Kaplan-Meier, na sua construção, considera tanto os intervalos de tempo quanto forem o número de falhas distintas. Os limites dos intervalos de tempo são os tempos de falha da amostra.
+O estimador de Kaplan-Meier, na sua construção, leva em consideração as informações censuradas também. Quando analisamos dados com censura, a informação sobre a sobrevivência até a data de sua saída é acessível, isto é, podemos calcular $S(t)$, para todo $t <$ data de saída. Entretanto, quando olhamos para um $t$ maior que a data de saída, não podemos mais garantir se o indivíduo é um sobrevivente ou não, pois não estava mais sendo acompanhado.
+
+O estimador de Kaplan Meier é proposto com o objetivo de acrescentar a informação de censuras na estimação da sobrevivência. Ele utiliza os conceitos de independência de eventos e de probabilidade condicional para caracterizar a curva de sobrevivência em cada intervalo de tempo anterior a $t$.
+
+#### Construção do estimador KM
+
+Sejam $t_1<t_2<\cdots<t_m$ os $m$ diferentes tempos onde ocorreram os eventos em uma amostra com $n$ indivíduos. Denota-se $R\left(t_j\right)$ o número de pessoas no grupo de risco no tempo $t_j$ e $\Delta N\left(t_j\right)$ o número total de eventos ocorridos precisamente em $t_j$. Assim, para os $m$ tempos $t_j$ em que ocorre um evento, a probabilidade de sobrevivência será estimada pelo número de sobreviventes no tempo $t_j\left(R\left(t_j\right)-\Delta N\left(t_j\right)\right)$ sobre os que estavam em risco naquele tempo $\left(R\left(t_j\right)\right)$. Como os eventos são independentes, a função de sobrevivência $S(t)$ é estimada empiricamente pelo produto das probabilidade de sobrevivência a cada tempo $t_j \leq t$ :
+
+$$
+\begin{aligned}\widehat{S}_{\mathrm{km}}(t) &=\frac{R\left(t_1\right)-\Delta N\left(t_1\right)}{R\left(t_1\right)} \times \frac{R\left(t_2\right)-\Delta N\left(t_2\right)}{R\left(t_2\right)} \times \cdots \\& \times \frac{R\left(t_m\right)-\Delta N\left(t_m\right)}{R\left(t_m\right)}=\\&=\prod_{j: t_j \leq t} \frac{R\left(t_j\right)-\Delta N\left(t_j\right)}{R\left(t_j\right)}=\\&=\prod_{j: t_j \leq t} 1-\frac{\Delta N\left(t_j\right)}{R\left(t_j\right)} .\end{aligned}
+$$
+
+A mesma equação pode ser apresentada na forma recursiva como:
+
+$$
+\widehat{S}_{\mathrm{km}}\left(t_j\right)=\widehat{S}_{\mathrm{km}}\left(t_{j-1}\right) \times \frac{R\left(t_j\right)-\Delta N\left(t_j\right)}{R\left(t_j\right)}
+$$
+
+#### Exemplo: Tempo de sobrevivência (dias) de alguns pacientes da coorte de Aids do Ipec.
+
+$$
+\begin{aligned}&60 \,\, 84 \,\, 25+\,\, 54 \,\, 80+ \,\, 37\,\,18 \,\, 29\,\, 50+\,\, 83 \,\, 80 \\&81+ \,\,35\,\,52\,\,21\,\,40\,\,22\,\,85+\,\,39\,\,16\,\,21+\end{aligned}
+$$Neste exemplo foram avaliados 21 indivíduos, dos quais 15 morreram (falhou) e 6 foram censurados.
+
+Para calcular a sobrevivência pelo estimador de KM, temos que primeiro obter os tempos de sobrevivência sem censuras, que correspondem ao tempo $t_j$, com $j = 1, \ldots, 15$. Na tabela seguinte, é possível ver os resultados das quantidades estimados pelo modelo KM.
+
+Tab: Estimacão de sobrevivência por Kaplan-Meier\
+$$
+\begin{array}{cccrr}\hline t_j & R(t) & \Delta N(t) & \widehat{S}_{\mathrm{km}}(t)=\prod_{t_j \leq t} \frac{R\left(t_j\right)-\Delta N\left(t_j\right)}{R\left(t_j\right)} \\\hline 16 & 21 & 1 & \left(\frac{21-1}{21}\right)=0,9524 \\18 & 20 & 1 & 0,9524 \times\left(\frac{20-1}{20}\right)=0,9048 \\21 & 19 & 1 & 0,9048 \times\left(\frac{19-1}{19}\right)=0,8571 \\22 & 17 & 1 & 0,8571 \times\left(\frac{17-1}{17}\right)=0,8067 \\29 & 15 & 1 & 0,8067 \times\left(\frac{15-1}{15}\right)=0,7529 \\35 & 14 & 1 & 0,7529 \times\left(\frac{14-1}{14}\right)=0,6992 \\37 & 13 & 1 & 0,6992 \times\left(\frac{13-1}{13}\right)=0,6454 \\39 & 12 & 1 & 0,6454 \times\left(\frac{12-1}{12}\right)=0,5916 \\40 & 11 & 1 & 0,5916 \times\left(\frac{11-1}{11}\right)=0,5378 \\52 & 9 & 1 & 0,5378 \times\left(\frac{9-1}{9}\right)=0,4781 \\54 & 8 & 1 & 0,4781 \times\left(\frac{8-1}{8}\right)=0,4183 \\60 & 7 & 1 & 0,4183 \times\left(\frac{7-1}{7}\right)=0,3585 \\80 & 6 & 1 & 0,3585 \times\left(\frac{6-1}{6}\right)=0,2988 \\83 & 3 & 1 & 0,2988 \times\left(\frac{3-1}{3}\right)=0,1992 \\84 & 2 & 1 & 0,1992 \times\left(\frac{2-1}{2}\right)=0,0996 \\\hline\end{array}
+$$
+
+### Código R 
+
+```{r}
+
+library(survival)
+tempo = c(60, 84, 25, 54,80,37,18,29,50,83,80,81,35,52,21,40,22,85,39,16,21)
+censura = c(1,1,0,1,0,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,0)
+dados = data.frame( tempo, censura )
+View(dados)
+
+```
+
+```{r}
+mod = survfit( Surv( tempo, censura   )~1, dados  )
+summary(mod)
+
+plot(mod, xlab = 'Tempo (Dias)', ylab= 'S(t)')
+
+
+```
+
+A partir da estimação da sobrevivência podemos encontrar o estimador do risco acumulado de Kaplan-Meier:
+
+$$
+\hat \Lambda_{KM}(t)= - \ln \left( \hat S_{KM}(t) \right) 
+$$
+
+```{r}
+
+plot(mod, xlab = 'Tempo (Dias)', ylab= 'Risco Acumulado(t)', fun = 'cumhaz')
+
+
+```
+
+### Estimador Nelson Aalen
+
+Uma alternativa para estimar o risco acumulado é o estimador de Nelson-Aalen. Ele foi proposto por Nelson (1972) e retomado por Aalen (1978), no qual demonstrou as propriedades assintóticas do estimador. Esse estimador pode ser obtido através da seguinte expressão:
+
+$$
+\tilde \Lambda_{NA}(t) = \sum_{j: t_j < t} \left( \frac{\Delta N(t_j)}{R(t_j)} \right) 
+$$
+
+Dessa forma, também podemos obter o estimador de $S(t)$ de Nelson-Aalen, tal que,
+
+$$
+\tilde S_{NA}(t) = \exp\{ - \tilde \Lambda_{NA}(t)  \} 
+$$
