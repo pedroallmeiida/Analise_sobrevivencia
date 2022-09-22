@@ -361,6 +361,16 @@ $$
 \widehat{S}_{\mathrm{km}}\left(t_j\right)=\widehat{S}_{\mathrm{km}}\left(t_{j-1}\right) \times \frac{R\left(t_j\right)-\Delta N\left(t_j\right)}{R\left(t_j\right)}
 $$
 
+### PRINCIPAIS PROPRIEDADES DO ESTIMADOR KM:
+
+-   É o estimador de máxima verossimilhança de $\mathrm{S}(\mathrm{t})$;
+
+-   É não-viciado para amostras grandes;
+
+-   É fracamente consistente;
+
+-   Converge assintoticamente para um processo Gaussiano.
+
 #### Exemplo: Tempo de sobrevivência (dias) de alguns pacientes da coorte de Aids do Ipec.
 
 $$
@@ -374,7 +384,7 @@ $$
 \begin{array}{cccrr}\hline t_j & R(t) & \Delta N(t) & \widehat{S}_{\mathrm{km}}(t)=\prod_{t_j \leq t} \frac{R\left(t_j\right)-\Delta N\left(t_j\right)}{R\left(t_j\right)} \\\hline 16 & 21 & 1 & \left(\frac{21-1}{21}\right)=0,9524 \\18 & 20 & 1 & 0,9524 \times\left(\frac{20-1}{20}\right)=0,9048 \\21 & 19 & 1 & 0,9048 \times\left(\frac{19-1}{19}\right)=0,8571 \\22 & 17 & 1 & 0,8571 \times\left(\frac{17-1}{17}\right)=0,8067 \\29 & 15 & 1 & 0,8067 \times\left(\frac{15-1}{15}\right)=0,7529 \\35 & 14 & 1 & 0,7529 \times\left(\frac{14-1}{14}\right)=0,6992 \\37 & 13 & 1 & 0,6992 \times\left(\frac{13-1}{13}\right)=0,6454 \\39 & 12 & 1 & 0,6454 \times\left(\frac{12-1}{12}\right)=0,5916 \\40 & 11 & 1 & 0,5916 \times\left(\frac{11-1}{11}\right)=0,5378 \\52 & 9 & 1 & 0,5378 \times\left(\frac{9-1}{9}\right)=0,4781 \\54 & 8 & 1 & 0,4781 \times\left(\frac{8-1}{8}\right)=0,4183 \\60 & 7 & 1 & 0,4183 \times\left(\frac{7-1}{7}\right)=0,3585 \\80 & 6 & 1 & 0,3585 \times\left(\frac{6-1}{6}\right)=0,2988 \\83 & 3 & 1 & 0,2988 \times\left(\frac{3-1}{3}\right)=0,1992 \\84 & 2 & 1 & 0,1992 \times\left(\frac{2-1}{2}\right)=0,0996 \\\hline\end{array}
 $$
 
-### Código R 
+### Código R
 
 ```{r}
 
@@ -421,3 +431,91 @@ Dessa forma, também podemos obter o estimador de $S(t)$ de Nelson-Aalen, tal qu
 $$
 \tilde S_{NA}(t) = \exp\{ - \tilde \Lambda_{NA}(t)  \} 
 $$
+
+### Comparação de curvas de sobrevivência
+
+O problema de **comparação** **de distribuições de sobrevivência** surge com frequência em estudos de sobrevivência. Por exemplo, pode ser de interesse comparar dois tratamentos para uma determinada doença.
+
+Um caminho simples é a [observação do gráfico]{.underline} das funções de sobrevivência estimadas. Contudo esse gráfico fornece apenas uma idéia aproximada da diferença entre essas distribuições. Ele não revela se as diferenças são significativas. Para comparar as curvas de sobrevivência mais formalmente, podemos recorrer a **testes de hipóteses.**
+
+#### Teste Log-Rank
+
+Para confirmar estatisticamente se as curvas de sobrevivência entre grupos são realmente distintas, vamos recorrer aos testes de hipóteses. O teste log-Rank ( ou Mantel- Hanzel) é usado para essa finalidade.
+
+#### Como funciona o teste ? 
+
+O teste de log-rank compara a [distribuição da ocorrência]{.underline} dos eventos observados em cada estrato com a distribuição que seria [esperada]{.underline} se a incidência fosse igual em todos os estratos.
+
+Se a distribuição observada for equivalente à distribuição esperada, dizemos que a curva de sobrevivência dos pacientes pertencentes ao estrato é equivalente à curva de sobrevivência dos pacientes em geral (a covariável não tem efeito na sobrevida).
+
+**Realização do teste:**
+
+**Hipótese nula:** não há diferença entre estratos.
+
+Estima-se o número de eventos esperados para cada estrato $\mathrm{k}$, segundo a hipótese nula de incidência igual em cada estrato.
+
+**Distribuição esperada** de eventos igual em todos os estratos:
+
+$$
+E_k(t)= \Delta N(t) \frac{R_k(t)}{R(t)}
+$$
+
+em que $\Delta N(t)$ é o número total de eventos observados. $R_k(t)$ é o número de pessoas em risco no estrato $k$. $R(t)$ é o número total de pessoas em risco no estudo no tempo t.
+
+**Estatística de teste** log-rank para dois estratos \$(k=2)\$ :
+
+$$
+\text { Log-rank }=\frac{\left(O_1-E_1\right)^2}{\operatorname{Var}\left(O_1-E_1\right)}
+$$
+
+$O_1=$ total de eventos observados no estrato 1
+
+$E_1=$ total de eventos esperados no estrato 1 .
+
+$$
+\operatorname{Var}\left(O_1-E_1\right)=\sum_t \frac{R_1(t) R_2(t) \Delta N(t)[R(t)-\Delta N(t)]}{R(t)^2[R(t)-1]}
+$$
+
+A estatística log-rank, sob a hipótese nula, segue uma distribuição $\chi^2$, com $k-1$ graus de liberdade.
+
+**Observação:** Apesar de introduzir o teste log-rank para dois estratos, a sua generalização para $k$ estratos também é válida.
+
+### Teste de Peto
+
+Dá maior peso às diferenças (ou semelhanças), no início da curva, onde se concentra a maior parte dos dados e por isso é mais informativa. Usa um ponderador $S(t)$ no estimador.
+
+$$
+\text { Peto }=\frac{\left(O_1-E_1\right)^2}{\operatorname{Var}\left(O_1-E_1\right)}
+$$
+
+sendo que
+
+$$
+O_1-E_1=\sum_{t_j} S\left(t_j\right)\left(O_1\left(t_j\right)-E_1\left(t_j\right)\right)
+$$
+
+Também a estatística Peto segue aproximadamente uma distribuição $\chi^2$ com $k-1$ graus de liberdade.
+
+A variância da estatística de Peto é igual a variância do log-rank, onde a cada tempo se pondera pelo quadrado da função de sobrevida.
+
+#### No R 
+
+Para fazer comparações de curvas de sobrevivência no R, basta usar a função `survdiff( ).`
+
+Exemplo: Dados de Hepatite
+
+```{r}
+
+tempo<- c(1,2,3,3,3,5,5,16,16,16,16,16,16,16,16,1,1,1,1,4,5,7,8,10,10,12,16,16,16) 
+cens<-c(0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,1,1,0,0,0,0,0) 
+grupos<-c(rep(1,15),rep(2,14)) 
+
+## Para rodar o teste log-rank, faça rho = 0
+
+survdiff(Surv(tempo,cens)~grupos,rho=0)
+
+
+## Para rodar o teste Peto, faça rho = 1
+
+survdiff(Surv(tempo,cens)~grupos,rho=1)
+```

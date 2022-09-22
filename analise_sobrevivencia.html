@@ -595,6 +595,15 @@ h(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t \leq T&lt;t+\Delta t \mid T \geq t
 \widehat{S}_{\mathrm{km}}\left(t_j\right)=\widehat{S}_{\mathrm{km}}\left(t_{j-1}\right) \times \frac{R\left(t_j\right)-\Delta N\left(t_j\right)}{R\left(t_j\right)}
 \]</span></p>
 </section>
+</section>
+<section id="principais-propriedades-do-estimador-km" class="level3">
+<h3 class="anchored" data-anchor-id="principais-propriedades-do-estimador-km">PRINCIPAIS PROPRIEDADES DO ESTIMADOR KM:</h3>
+<ul>
+<li><p>É o estimador de máxima verossimilhança de <span class="math inline">\(\mathrm{S}(\mathrm{t})\)</span>;</p></li>
+<li><p>É não-viciado para amostras grandes;</p></li>
+<li><p>É fracamente consistente;</p></li>
+<li><p>Converge assintoticamente para um processo Gaussiano.</p></li>
+</ul>
 <section id="exemplo-tempo-de-sobrevivência-dias-de-alguns-pacientes-da-coorte-de-aids-do-ipec." class="level4">
 <h4 class="anchored" data-anchor-id="exemplo-tempo-de-sobrevivência-dias-de-alguns-pacientes-da-coorte-de-aids-do-ipec.">Exemplo: Tempo de sobrevivência (dias) de alguns pacientes da coorte de Aids do Ipec.</h4>
 <p><span class="math display">\[
@@ -669,6 +678,89 @@ h(t)=\lim _{\Delta t \rightarrow 0} \frac{P(t \leq T&lt;t+\Delta t \mid T \geq t
 <p><span class="math display">\[
 \tilde S_{NA}(t) = \exp\{ - \tilde \Lambda_{NA}(t)  \}
 \]</span></p>
+</section>
+<section id="comparação-de-curvas-de-sobrevivência" class="level3">
+<h3 class="anchored" data-anchor-id="comparação-de-curvas-de-sobrevivência">Comparação de curvas de sobrevivência</h3>
+<p>O problema de <strong>comparação</strong> <strong>de distribuições de sobrevivência</strong> surge com frequência em estudos de sobrevivência. Por exemplo, pode ser de interesse comparar dois tratamentos para uma determinada doença.</p>
+<p>Um caminho simples é a <u>observação do gráfico</u> das funções de sobrevivência estimadas. Contudo esse gráfico fornece apenas uma idéia aproximada da diferença entre essas distribuições. Ele não revela se as diferenças são significativas. Para comparar as curvas de sobrevivência mais formalmente, podemos recorrer a <strong>testes de hipóteses.</strong></p>
+<section id="teste-log-rank" class="level4">
+<h4 class="anchored" data-anchor-id="teste-log-rank">Teste Log-Rank</h4>
+<p>Para confirmar estatisticamente se as curvas de sobrevivência entre grupos são realmente distintas, vamos recorrer aos testes de hipóteses. O teste log-Rank ( ou Mantel- Hanzel) é usado para essa finalidade.</p>
+</section>
+<section id="como-funciona-o-teste" class="level4">
+<h4 class="anchored" data-anchor-id="como-funciona-o-teste">Como funciona o teste ?</h4>
+<p>O teste de log-rank compara a <u>distribuição da ocorrência</u> dos eventos observados em cada estrato com a distribuição que seria <u>esperada</u> se a incidência fosse igual em todos os estratos.</p>
+<p>Se a distribuição observada for equivalente à distribuição esperada, dizemos que a curva de sobrevivência dos pacientes pertencentes ao estrato é equivalente à curva de sobrevivência dos pacientes em geral (a covariável não tem efeito na sobrevida).</p>
+<p><strong>Realização do teste:</strong></p>
+<p><strong>Hipótese nula:</strong> não há diferença entre estratos.</p>
+<p>Estima-se o número de eventos esperados para cada estrato <span class="math inline">\(\mathrm{k}\)</span>, segundo a hipótese nula de incidência igual em cada estrato.</p>
+<p><strong>Distribuição esperada</strong> de eventos igual em todos os estratos:</p>
+<p><span class="math display">\[
+E_k(t)= \Delta N(t) \frac{R_k(t)}{R(t)}
+\]</span></p>
+<p>em que <span class="math inline">\(\Delta N(t)\)</span> é o número total de eventos observados. <span class="math inline">\(R_k(t)\)</span> é o número de pessoas em risco no estrato <span class="math inline">\(k\)</span>. <span class="math inline">\(R(t)\)</span> é o número total de pessoas em risco no estudo no tempo t.</p>
+<p><strong>Estatística de teste</strong> log-rank para dois estratos $(k=2)$ :</p>
+<p><span class="math display">\[
+\text { Log-rank }=\frac{\left(O_1-E_1\right)^2}{\operatorname{Var}\left(O_1-E_1\right)}
+\]</span></p>
+<p><span class="math inline">\(O_1=\)</span> total de eventos observados no estrato 1</p>
+<p><span class="math inline">\(E_1=\)</span> total de eventos esperados no estrato 1 .</p>
+<p><span class="math display">\[
+\operatorname{Var}\left(O_1-E_1\right)=\sum_t \frac{R_1(t) R_2(t) \Delta N(t)[R(t)-\Delta N(t)]}{R(t)^2[R(t)-1]}
+\]</span></p>
+<p>A estatística log-rank, sob a hipótese nula, segue uma distribuição <span class="math inline">\(\chi^2\)</span>, com <span class="math inline">\(k-1\)</span> graus de liberdade.</p>
+<p><strong>Observação:</strong> Apesar de introduzir o teste log-rank para dois estratos, a sua generalização para <span class="math inline">\(k\)</span> estratos também é válida.</p>
+</section>
+</section>
+<section id="teste-de-peto" class="level3">
+<h3 class="anchored" data-anchor-id="teste-de-peto">Teste de Peto</h3>
+<p>Dá maior peso às diferenças (ou semelhanças), no início da curva, onde se concentra a maior parte dos dados e por isso é mais informativa. Usa um ponderador <span class="math inline">\(S(t)\)</span> no estimador.</p>
+<p><span class="math display">\[
+\text { Peto }=\frac{\left(O_1-E_1\right)^2}{\operatorname{Var}\left(O_1-E_1\right)}
+\]</span></p>
+<p>sendo que</p>
+<p><span class="math display">\[
+O_1-E_1=\sum_{t_j} S\left(t_j\right)\left(O_1\left(t_j\right)-E_1\left(t_j\right)\right)
+\]</span></p>
+<p>Também a estatística Peto segue aproximadamente uma distribuição <span class="math inline">\(\chi^2\)</span> com <span class="math inline">\(k-1\)</span> graus de liberdade.</p>
+<p>A variância da estatística de Peto é igual a variância do log-rank, onde a cada tempo se pondera pelo quadrado da função de sobrevida.</p>
+<section id="no-r" class="level4">
+<h4 class="anchored" data-anchor-id="no-r">No R</h4>
+<p>Para fazer comparações de curvas de sobrevivência no R, basta usar a função <code>survdiff( ).</code></p>
+<p>Exemplo: Dados de Hepatite</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tempo<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">16</span>,<span class="dv">16</span>,<span class="dv">16</span>) </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>cens<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>) </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>grupos<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">15</span>),<span class="fu">rep</span>(<span class="dv">2</span>,<span class="dv">14</span>)) </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Para rodar o teste log-rank, faça rho = 0</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(tempo,cens)<span class="sc">~</span>grupos,<span class="at">rho=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+survdiff(formula = Surv(tempo, cens) ~ grupos, rho = 0)
+
+          N Observed Expected (O-E)^2/E (O-E)^2/V
+grupos=1 15        2     4.81      1.64      3.67
+grupos=2 14        7     4.19      1.89      3.67
+
+ Chisq= 3.7  on 1 degrees of freedom, p= 0.06 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Para rodar o teste Peto, faça rho = 1</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(tempo,cens)<span class="sc">~</span>grupos,<span class="at">rho=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+survdiff(formula = Surv(tempo, cens) ~ grupos, rho = 1)
+
+          N Observed Expected (O-E)^2/E (O-E)^2/V
+grupos=1 15     1.79     4.16      1.35      3.43
+grupos=2 14     6.00     3.63      1.54      3.43
+
+ Chisq= 3.4  on 1 degrees of freedom, p= 0.06 </code></pre>
+</div>
+</div>
+</section>
 </section>
 </section>
 </section>
