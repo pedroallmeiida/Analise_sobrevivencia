@@ -1,7 +1,7 @@
 ---
 title: "Análise de sobrevivência"
 author: "Professor: Pedro Monteiro de Almeida Junior"
-format: html
+format: pdf
 editor: visual
 ---
 
@@ -442,7 +442,7 @@ Um caminho simples é a [observação do gráfico]{.underline} das funções de 
 
 Para confirmar estatisticamente se as curvas de sobrevivência entre grupos são realmente distintas, vamos recorrer aos testes de hipóteses. O teste log-Rank ( ou Mantel- Hanzel) é usado para essa finalidade.
 
-#### Como funciona o teste ? 
+#### Como funciona o teste ?
 
 O teste de log-rank compara a [distribuição da ocorrência]{.underline} dos eventos observados em cada estrato com a distribuição que seria [esperada]{.underline} se a incidência fosse igual em todos os estratos.
 
@@ -498,7 +498,7 @@ Também a estatística Peto segue aproximadamente uma distribuição $\chi^2$ co
 
 A variância da estatística de Peto é igual a variância do log-rank, onde a cada tempo se pondera pelo quadrado da função de sobrevida.
 
-#### No R 
+#### No R
 
 Para fazer comparações de curvas de sobrevivência no R, basta usar a função `survdiff( ).`
 
