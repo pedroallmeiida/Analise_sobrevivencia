@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Professor: Pedro Monteiro de Almeida Junior">
+
+<title>Modelos paramétricos de sobrevivência</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Modelos_Parametricos_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Modelos_Parametricos_files/libs/quarto-html/quarto.js"></script>
+<script src="Modelos_Parametricos_files/libs/quarto-html/popper.min.js"></script>
+<script src="Modelos_Parametricos_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Modelos_Parametricos_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Modelos_Parametricos_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Modelos_Parametricos_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Modelos_Parametricos_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Modelos_Parametricos_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Modelos_Parametricos_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modelos paramétricos de sobrevivência</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Professor: Pedro Monteiro de Almeida Junior </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="métodos-paramétricos-para-a-análise-de-dados-de-sobrevivência" class="level3">
+<h3 class="anchored" data-anchor-id="métodos-paramétricos-para-a-análise-de-dados-de-sobrevivência">MÉTODOS PARAMÉTRICOS PARA A ANÁLISE DE DADOS DE SOBREVIVÊNCIA</h3>
+<p>Nesta abordagem paramétrica, para estimar as funções básicas da análise de sobrevida, assume-se que o tempo de falha T segue uma distribuição conhecida de probabilidade.</p>
+<p><strong>PERGUNTA:</strong> Que tipo de distribuição de probabilidade poderia representar T?</p>
+<p><strong>LEMBRANDO:</strong></p>
+<p>I. T é uma V.A. contínua não-negativa.</p>
+<p>II. T apresenta forte assimetria.</p>
+<p>Dessa forma, a distribuição normal, que permite valores negativos, não é adequada para modelar o tempo de sobrevida.</p>
+<p>Alguns modelos mais utilizados, por se adaptarem a uma grande variedade de situações, são: <strong>exponencial, weibull e lognormal</strong>.</p>
+</section>
+<section id="distribuições-básicas" class="level3">
+<h3 class="anchored" data-anchor-id="distribuições-básicas">Distribuições básicas</h3>
+<ol type="1">
+<li>Distribuição Exponencial</li>
+</ol>
+<p>: Em termos matemáticos, a distribuição exponencial é um dos modelos probabilísticos mais simples para descrever o tempo de vida .</p>
+<p>Esta distribuição apresenta um único parâmetro e é a única que se caracteriza por ter uma função de risco constante.</p>
+<p>É bastante utilizada para descrever o tempo de vida de certos produtos, bem como, o tempo de vida e remissão em doenças crônicas e infecciosas.</p>
+<p><span class="math inline">\(\therefore\)</span> A função densidade de probabilidade é dada por:</p>
+<p><span class="math display">\[
+f(t)=\lambda \exp (-\lambda t), \lambda&gt;0
+\]</span></p>
+<p>Em que o parâmetro <span class="math inline">\(\lambda\)</span> tem a mesma unidade do tempo de vida T.</p>
+<p>A função de sobrevivência é dada por:</p>
+<p><span class="math display">\[
+S(t)=e^{-(\lambda t)}
+\]</span></p>
+<p>As funções de risco é dada por:</p>
+<p><span class="math display">\[
+h(t)=\frac{f(t)}{S(t)}=\frac{\lambda e^{-\lambda t}}{e^{-\lambda t}}=\lambda
+\]</span></p>
+<section id="ilustração-das-funções-de-sobrevivência-segundo-o-modelo-exponencial." class="level4">
+<h4 class="anchored" data-anchor-id="ilustração-das-funções-de-sobrevivência-segundo-o-modelo-exponencial.">ILUSTRAÇÃO DAS FUNÇÕES DE SOBREVIVÊNCIA SEGUNDO O MODELO EXPONENCIAL.</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/ex_curvas_exponencial.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Curvas para distribuição Exponencial</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="distribuição-weibull" class="level4">
+<h4 class="anchored" data-anchor-id="distribuição-weibull">Distribuição Weibull</h4>
+<p>A distribuição Weibull é uma generalização da distribuição exponencial.</p>
+<p>É bastante utilizada em aplicações práticas por apresentar uma grande variedade de formas: a sua função de risco é monótona, isto é, ela é crescente, decrescente ou constante.</p>
+<p>A distribuição Weibull é uma das mais utilizada para modelar tempos de sobrevida, particularmente em estudos nas áreas biomédica e industrial.</p>
+<p>Alguns exemplos: tempo até a ocorrência de tumores, estudo de mortalidade por causas específicas e tempo de incubação do HIV.</p>
+<p>A f.d.p. de uma variável aleatória T com distribuição de Weibull é dada por:</p>
+<p><span class="math display">\[
+f(t)=\lambda \gamma(\lambda t)^{\gamma-1} e^{-(\lambda t)^\gamma}
+\]</span></p>
+<p>O parâmetro de forma, <span class="math inline">\(\gamma\)</span> e o de escala, <span class="math inline">\(\lambda\)</span> são ambos positivos.</p>
+<p>O parâmetro <span class="math inline">\(\lambda\)</span> tem a mesma unidade de medida do tempo e <span class="math inline">\(\gamma\)</span> não tem unidade de medida.</p>
+<p>Função de sobrevivência:</p>
+<p><span class="math display">\[
+S(t)=\exp \left(-(\lambda t)^\gamma\right)
+\]</span></p>
+<p>Função de risco:</p>
+<p><span class="math display">\[
+h(t)=\lambda \gamma(\lambda t)^{\gamma-1}
+\]</span></p>
+<p>Observe que para <span class="math inline">\(\gamma&gt;1\)</span> : A função de risco é estritamente crescente.</p>
+<p><span class="math inline">\(\gamma&lt;1\)</span> : A função de risco é estritamente decrescente.</p>
+<p><span class="math inline">\(\gamma=1\)</span> : A função de risco é constante, equivalendo ao modelo exponencial.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/curvas_weibull.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Curvas para a distribuição Weibull</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="distribuição-log-normal" class="level3">
+<h3 class="anchored" data-anchor-id="distribuição-log-normal">Distribuição Log normal</h3>
+<p>É muito utilizada para caracterizar tempos de vida de produtos e indivíduos.</p>
+<p>Alguns exemplos: fadiga de metal, semicondutores e pacientes com leucemia.</p>
+<p>Existe uma relação entre as distribuições lognormal e normal que facilita a apresentação e análise de dados.</p>
+<p>O logaritmo de uma variável com distribuição lognormal segue uma distribuição normal com parâmetros <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\sigma^2\)</span>.</p>
+<p>A f.d.p. de uma variável aleatória T com distribuição lognormal é dada por:</p>
+<p><span class="math display">\[
+f(t)=\frac{1}{t \sigma \sqrt{2 \pi}} \exp \left\{-\frac{1}{2}\left(\frac{\ln (t)-\mu}{\sigma}\right)^2 \right\}, t&gt;0
+\]</span></p>
+<p>- A função de sobrevivência de uma variável lognormal não apresenta uma forma analítica explícita e é representada por:</p>
+<p><span class="math display">\[
+S(t)=1-F(t)=1-\Phi\left(\frac{\ln (t)-\mu}{\sigma}\right)
+\]</span></p>
+<p>em que <span class="math inline">\(\Phi()\)</span> é a função de distribuição acumulada de uma normal padrão.</p>
+<p><span class="math display">\[
+h(t)=\frac{f(t)}{S(t)}
+\]</span></p>
+<p>A popularidade dessa distribuição é em parte devido ao fato de que o valor acumulado de <span class="math inline">\(\ln (\mathrm{t})\)</span> pode ser obtido da tabela da distribuição normal padrão e o correspondente valor de t é então encontrado pela aplicação de antilogaritmo.</p>
+<p><img src="images/curvas_lognormal.png" class="img-fluid"></p>
+<p>Observe que as funções de risco não são monótonas como as da distribuição Weibull. Elas crescem, atingem um valor máximo e depois decrescem.</p>
+</section>
+<section id="estimação-dos-parâmetros" class="level3">
+<h3 class="anchored" data-anchor-id="estimação-dos-parâmetros">Estimação dos parâmetros</h3>
+<p>Os modelos probabilísticos são caracterizados por quantidades desconhecidas, denominadas <strong>parâmetros</strong>. O modelo gama generalizado é caracterizado por três parâmetros, os modelos de Weibull, log-normal e gama por dois parâmetros e, o exponencial, por apenas um.</p>
+<p>Dessa forma, para que possamos estimar as curvas de sobrevivência, precisamos estimar os parâmetros do modelo de acordo com a especificação da distribuição de probabilidade.</p>
+<p>O método de máxima verossimilhança surge como uma opção apropriada para este tipo de dados. Ele incorpora as censuras, é relativamente simples de ser entendido e possui boas propriedades assintóticas.</p>
+<section id="o-método-de-máxima-verossimilhança" class="level4">
+<h4 class="anchored" data-anchor-id="o-método-de-máxima-verossimilhança">O método de Máxima Verossimilhança</h4>
+<p>A partir dos resultados encontrados pela amostra, uma pergunta que surge é, qual distribuição devemos atribuir aos nosso dados ? Como existem vários possíveis valores para os parâmetros, então temos várias representações possíveis para a distribuição dos dados. Portanto, o método da máxima verossimilhança, consiste em atribuir valores aos parâmetros de tal forma que exista uma maior possibilidade de ter gerado a amostra observada.</p>
+<p><strong>Exemplo:</strong> Se por exemplo a distribuição do tempo de falha é a de Weibull, para cada combinação diferente de <span class="math inline">\(\gamma\)</span> e <span class="math inline">\(\alpha\)</span> tem-se diferentes distribuições de Weibull. O estimador de máxima verossimilhança escolhe aquele par de <span class="math inline">\(\gamma\)</span> e <span class="math inline">\(\alpha\)</span> que melhor explique a amostra observada.</p>
+</section>
+<section id="verossimilhança" class="level4">
+<h4 class="anchored" data-anchor-id="verossimilhança">Verossimilhança</h4>
+<p>Suponha, inicialmente, uma amostra de observações <span class="math inline">\(t_1, \ldots, t_n\)</span> de uma certa população de interesse em que todas são <u>não-censuradas</u>. Suponha, ainda, que a população é caracterizada pela sua função de densidade <span class="math inline">\(f(t)\)</span>. A função de verossimilhança para um parâmetro genérico <span class="math inline">\(\theta\)</span> desta população é então expressa por</p>
+<p><span class="math display">\[
+L(\theta)=\prod_{i=1}^n f\left(t_i ; \theta\right) .
+\]</span></p>
+<p><strong>Exemplo:</strong> Se <span class="math inline">\(f(t)=(1 / \alpha) \exp (-t / \alpha)\)</span>, significa que as observações vêm de uma distribuição exponencial com parâmetro <span class="math inline">\(\alpha\)</span> a ser estimado. Ou seja, a verossimilhança é dada por</p>
+<p><span class="math display">\[
+\begin{align}
+L(\theta)&amp;=\prod_{i=1}^n \left[  (1 / \alpha) \exp (-t_i / \alpha)  \right] \\
+&amp;= \alpha^{-n} \exp \left[ - \frac{1}{\alpha}\sum_{i=1}^{n} t_i \right]
+\end{align}
+\]</span></p>
+</section>
+<section id="verossimilhanças-com-a-presença-de-censuras" class="level4">
+<h4 class="anchored" data-anchor-id="verossimilhanças-com-a-presença-de-censuras">Verossimilhanças com a presença de censuras</h4>
+<p>A função de verossimilhança <span class="math inline">\(L(\theta)\)</span> mostra que a contribuição de cada observação <strong>não-censurada</strong> é a sua função de densidade. A contribuição de cada observação <strong>censurada</strong> não é, contudo, a sua função de densidade. Estas observações somente nos informam que o tempo de falha é maior que o tempo de censura observado e, portanto, que a sua contribuição para <span class="math inline">\(L(\theta)\)</span> é a sua função de sobrevivência <span class="math inline">\(S(t)\)</span>. As observações podem então ser divididas em dois conjuntos, as <span class="math inline">\(r\)</span> primeiras são as não censuradas <span class="math inline">\((1,2, \cdots, r)\)</span>, e as <span class="math inline">\(n-r\)</span> seguintes, são as censuradas <span class="math inline">\((r+1, r+2, \cdots, n)\)</span>.</p>
+<p>A função de verossimilhança assume assim a seguinte forma</p>
+<p><span class="math display">\[
+L(\theta)=\prod_{i=1}^r f\left(t_i ; \theta\right) \prod_{i=r+1}^n S\left(t_i ; \theta\right),
+\]</span></p>
+<p>ou equivalentemente,</p>
+<p><span class="math display">\[
+\begin{aligned}L(\theta) &amp;=\prod_{i=1}^n\left[f\left(t_i ; \theta\right)\right]^{\delta_i}\left[S\left(t_i ; \theta\right)\right]^{1-\delta_i} \\&amp;=\prod_{i=1}^n\left[\lambda\left(t_i ; \theta\right)\right]^{\delta_i} S\left(t_i ; \theta\right)\end{aligned}
+\]</span></p>
+<p>em que <span class="math inline">\(\delta_i\)</span> é a variável indicadora de falha ou censura ( 1 - Se ocorreu a falha e 0- Censura ).</p>
+<p>Como visto na disciplina de inferência estatística, é sempre conveniente, trabalhar com o logaritmo da função de verossimilhança. Os estimadores de máxima verossimilhança são os valores de <span class="math inline">\(\theta\)</span> que maximizam <span class="math inline">\(L(\theta)\)</span> ou eqüivalentemente <span class="math inline">\(\log (L(\theta))\)</span>. Eles são encontrados resolvendo-se o sistema de equações</p>
+<p><span class="math display">\[
+U(\theta)=\frac{\partial \log L(\theta)}{\partial \theta}=0 .
+\]</span></p>
+<p><u><strong>Exemplo para Distribuição Exponencial</strong></u></p>
+<ul>
+<li>Função de verossimilhança:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align}
+L(\alpha) &amp;=
+\prod_{i=1}^n\left[\frac{1}{\alpha} \exp \left\{-\left(\frac{t_i}{\alpha}\right)\right\}\right]^{\delta_i}\left[\exp \left\{-\left(\frac{t_i}{\alpha}\right)\right\}\right]^{1-\delta_i} \\
+&amp;=\prod_{i=1}^n\left[\frac{1}{\alpha}\right]^{\delta_i} \exp \left\{-\left(\frac{t_i}{\alpha}\right)\right\}
+\end{align}
+\]</span></p>
+<ul>
+<li><p>Função de log verossimilhança:</p>
+<p><span class="math display">\[
+\begin{align}
+\log (L(\alpha))&amp;=\sum_{i=1}^n \delta_i \log (1 / \alpha)-\frac{1}{\alpha} \sum_{i=1}^n t_i \\
+&amp;=-\sum_{i=1}^n \delta_i \log (\alpha)-\frac{1}{\alpha} \sum_{i=1}^n t_i
+\end{align}
+\]</span></p></li>
+<li><p>Função escore:</p>
+<p><span class="math display">\[
+\frac{\partial \log (L(\alpha))}{\partial \alpha}=-\frac{1}{\alpha} \sum_{i=1}^n \delta_i+\frac{1}{\alpha^2} \sum_{i=1}^n t_i.
+\]</span></p></li>
+<li><p>Estimador de máxima verossimilhança para o parâmetro <span class="math inline">\(\alpha\)</span> :</p>
+<p><span class="math display">\[
+\hat{\alpha}=\frac{\sum_{i=1}^n t_i}{\sum_{i=1}^n \delta_i}=\frac{\sum_{i=1}^n t_i}{r}
+\]</span></p></li>
+</ul>
+</section>
+<section id="ajuste-no-r" class="level4">
+<h4 class="anchored" data-anchor-id="ajuste-no-r">Ajuste no R</h4>
+<p>A seguir vamos ver o passo a passo para estimar a curva de sobrevivência usando os modelos paramétricos.</p>
+<p>Função para ajustar um modelo de regressão paramétrico de sobrevivência:</p>
+<p><code>ajuste&lt;-survreg(Surv(tempo, censura)~1, dist="nome_distribuicao")</code></p>
+<p>Obtenção das estimativas de máxima verossimilhança dos parâmetros:</p>
+<p>Exponencial: <code>lambda&lt;-exp(ajuste$coefficients[1])</code></p>
+<p>Weibull: <code>lambda&lt;-exp(ajuste$coefficients[1])</code> e <code>gamma&lt;-1/ajuste$scale</code></p>
+<p>Obtenção das estimativas das funções de sobrevivência via modelos:</p>
+<p>Exponencial: <code>ste&lt;- exp(-tempos*lambda)</code></p>
+<p>Weibull: <code>stw&lt;- exp(-(tempos*lambda)^gamma)</code></p>
+</section>
+<section id="exemplo" class="level4">
+<h4 class="anchored" data-anchor-id="exemplo">Exemplo</h4>
+<p>Neste exemplo são considerados os tempos de reincidência, em meses, de um grupo de 20 pacientes com câncer de bexiga que foram submetidos a um procedimento cirúrgico feito por laser. Os tempos obtidos foram: <span class="math inline">\(3,5,6,7,8,9,10,10^{+}, 12,15, 15^{+}, 18,19,20,22,25,28,30,40,45^{+}\)</span> em que o símbolo <span class="math inline">\(+\)</span> indica censura.</p>
+<p>Para este exemplo, as expressões das estimativas das funções de sobrevivência para os modelos exponencial, de Weibull e log-normal são, respectivamente,</p>
+<p><span class="math display">\[
+\begin{aligned}\widehat{S}(t) &amp;=\exp \{-t / 20,41\} \\\widehat{S}(t) &amp;=\exp \left\{-(t / 21,34)^{1,54}\right\} \\\widehat{S}(t) &amp;=\Phi[-(\log (t)-2,72) / 0,76]\end{aligned}
+\]</span></p>
+</section>
+<section id="código-do-exemplo" class="level4">
+<h4 class="anchored" data-anchor-id="código-do-exemplo">Código do exemplo</h4>
+<p>Carregando a bliblioteca survival e criando as colunas de tempos de falhas e censura:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(survival)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: survival</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'survival' was built under R version 4.1.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tempos<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">18</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">22</span>,<span class="dv">25</span>,<span class="dv">28</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">45</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cens<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ajuste do modelo de sobrevivência paramétrico assumindo distribuição exponencial:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ajust1<span class="ot">&lt;-</span><span class="fu">survreg</span>(<span class="fu">Surv</span>(tempos,cens)<span class="sc">~</span><span class="dv">1</span>,<span class="at">dist=</span><span class="st">'exponential'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ajust1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+survreg(formula = Surv(tempos, cens) ~ 1, dist = "exponential")
+
+Coefficients:
+(Intercept) 
+   3.016111 
+
+Scale fixed at 1 
+
+Loglik(model)= -68.3   Loglik(intercept only)= -68.3
+n= 20 </code></pre>
+</div>
+</div>
+<p>Estimando o parâmetro <span class="math inline">\(\alpha\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>alpha<span class="ot">&lt;-</span><span class="fu">exp</span>(ajust1<span class="sc">$</span>coefficients[<span class="dv">1</span>])</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>alpha</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept) 
+   20.41176 </code></pre>
+</div>
+</div>
+</section>
+<section id="procedimento-para-a-escolha-de-uma-distribuição" class="level4">
+<h4 class="anchored" data-anchor-id="procedimento-para-a-escolha-de-uma-distribuição">PROCEDIMENTO PARA A ESCOLHA DE UMA DISTRIBUIÇÃO</h4>
+<p>O método de máxima verossimilhança somente deve ser aplicado após ter sido definido um modelo probabilístico adequado para os dados. Se um modelo for usado inadequadamente, toda a análise estatística fica comprometida e consequentemente as respostas às perguntas de interesse ficam distorcidas.</p>
+<p>A idéia empírica consiste em ajustar os modelos probabilísticos típicos para dados de tempos de vida e com base na comparação entre valores estimados e observados, decidir qual deles “melhor” se ajusta aos dados amostrais.</p>
+<p>A escolha da “melhor” distribuição pode ser feita por meio de <strong>técnicas gráficas</strong> ou <strong>testes de hipóteses.</strong></p>
+<p><strong>MÉTODO GRÁFICO I</strong></p>
+<ul>
+<li><p>Este método consiste na comparação da função de sobrevivência do modelo proposto com o estimador de Kaplan-Meier.</p></li>
+<li><p>Os modelos propostos são ajustados ao conjunto de dados e, a partir das estimativas dos parâmetros de cada modelo, estimam-se suas respectivas funções de sobrevivência.</p></li>
+<li><p>Para o conjunto de dados obtém-se também, a estimativa de Kaplan-Meier para a função de sobrevivência <span class="math inline">\((\hat{S}(t))\)</span>.</p></li>
+<li><p>A comparação das funções de sobrevivência estimadas para cada modelo proposto com a função obtida pelo estimador de Kaplan-Meier pode ser feita de duas maneiras.</p></li>
+</ul>
+<p>Uma forma de comparar as funções é construindo os gráficos das função de sobrevivência estimada via Kaplan-Meier <span class="math inline">\((\hat{S}(t))\)</span> versus a funcão de sobrevivência estimada para cada modelo proposto <span class="math inline">\(\left(\hat{S}_M(t)\right)\)</span></p>
+<p>O ” melhor” modelo é então aquele cujos pontos da função de sobrevivência estimada estiverem mais próximos dos valores obtidos pelo estimador de Kaplan-Meier. Isto é, o melhor modelo é aquele cujos pontos no gráfico estiverem mais próximos da reta <span class="math inline">\(\mathbf{y}=\mathrm{x}\)</span>, com <span class="math inline">\(\mathrm{x}=\hat{S}(t)\)</span> e <span class="math inline">\(\mathrm{y}=\hat{\hat{S}_M(t)}\)</span></p>
+<p>Uma outra forma de comparação é colocar no mesmo gráfico as curvas <span class="math inline">\(\hat{S}(t)\)</span> versus <span class="math inline">\(t\)</span> e <span class="math inline">\(\hat{S}_M(t)\)</span> versus <span class="math inline">\(t\)</span>, para cada modelo proposto.</p>
+<p>O modelo (ou os modelos) adequado é aquele em que sua curva de sobrevivência se aproximar daquela do Estimador de Kaplan-Meyer. Esta comparação também pode ser feita através de <span class="math inline">\(\mathrm{H}(\mathrm{t})\)</span>.</p>
+<p>Podem existir situações em que <u>nenhum desses modelos sejam adequado</u>. Estas situações exigem modelos paramétricos mais flexíveis ou uma análise estatística toda baseada em técnicas não-paramétricas. Em situações em que o tamanho da amostra é pequeno ou ocorre um número pequeno de falhas as técnicas gráficas podem indicar que os modelos são igualmente bons.</p>
+</section>
+<section id="teste-de-hipótese" class="level4">
+<h4 class="anchored" data-anchor-id="teste-de-hipótese">TESTE DE HIPÓTESE</h4>
+<p>Como as técnicas gráficas exigem um componente subjetivo na sua interpretação, uma outra forma de selecionar modelos é através de teste de hipótese.</p>
+<p>As hipóteses são: <span class="math inline">\(\quad \mathrm{H}_0\)</span> : O modelo é adequado.</p>
+<p><span class="math inline">\(\mathrm{H}_1\)</span> : O modelo não é adequado</p>
+<p>Este teste é realizado utilizando-se a estatística da razão de verossimilhanças em modelos encaixados.</p>
+<p>Um modelo generalizado, tal que os modelos de interesse sejam casos particulares, deve ser identificado.</p>
+<p>(1) Ajusta-se o modelo generalizado e obtém-se o valor do logaritmo de sua função de verossimilhança <span class="math inline">\(\left(\log L\left(\hat{\theta}_G\right)\right)\)</span>.</p>
+<p>(2) Ajusta-se o modelo de interesse e obtém-se o valor do logaritmo de sua função de verossimilhança <span class="math inline">\(\left(\log L\left(\hat{\theta}_M\right)\right)\)</span>.</p>
+<p>(3) Calcula-se a estatística da razão de verossimilhanças.</p>
+<p><span class="math display">\[
+R V=2\left[\log L\left(\hat{\theta}_G\right)-\log L\left(\hat{\theta}_M\right)\right]
+\]</span></p>
+<p>Sob <span class="math inline">\(\mathrm{H}_0\)</span> esta estatística tem distribuição Qui-Quadrado com graus de liberdade igual a diferença do número de parâmetros dos modelos sendo comparados. Este teste é usualmente realizado utilizando-se a distribuição gama generalizada que apresenta os modelos exponencial, weibull e lognormal como <strong>modelos encaixados</strong>.</p>
+</section>
+</section>
+<section id="modelos-de-regressão-paramétricos" class="level3">
+<h3 class="anchored" data-anchor-id="modelos-de-regressão-paramétricos">Modelos de regressão paramétricos</h3>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
