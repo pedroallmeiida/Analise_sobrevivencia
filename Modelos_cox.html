@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Professor: Pedro Monteiro de Almeida Junior">
+
+<title>Modelos de regressão de Cox</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="Modelos_cox_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Modelos_cox_files/libs/quarto-html/quarto.js"></script>
+<script src="Modelos_cox_files/libs/quarto-html/popper.min.js"></script>
+<script src="Modelos_cox_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Modelos_cox_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Modelos_cox_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Modelos_cox_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Modelos_cox_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Modelos_cox_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Modelos_cox_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modelos de regressão de Cox</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Professor: Pedro Monteiro de Almeida Junior </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="modelos-de-regressão-de-cox" class="level3">
+<h3 class="anchored" data-anchor-id="modelos-de-regressão-de-cox">Modelos de regressão de Cox</h3>
+<p>Os modelos de regressão paramétricos vistos anteriormente exigem que se suponha uma distribuição estatística para o tempo de sobrevivência.</p>
+<p>Contudo esta suposição, caso não seja adequada, pode fazer com que as estimativas sejam pouco confiáveis.</p>
+<p>Com o objetivo de encontrar um modelo mais flexível, Cox propôs em 1972 um modelo, denominado <strong>modelo de risco proporcional de Cox.</strong></p>
+<ul>
+<li><p>Como em análise de sobrevivência o interesse também pode estar no risco de falha o modelo proposto por Cox modela diretamente a função de risco.</p></li>
+<li><p>O princípio básico deste modelo para estimar o efeito das covariáveis é a proporcionalidade dos riscos ao longo de todo o tempo de observação.</p></li>
+</ul>
+<p>Suponha o caso simples em que uma única covariável, que é um indicador de grupo, é considerada. Considere, por exemplo, que pacientes são aleatorizados para receber um tratamento padrão ou um novo tratamento.</p>
+<p>Seja <span class="math inline">\(h_1(t)\)</span> e <span class="math inline">\(h_0(t)\)</span> as funções de risco no tempo t para pacientes no tratamento novo e no tratamento padrão, respectivamente. De acordo com o princípio da proporcionalidade o risco no tempo <span class="math inline">\(t\)</span> para pacientes no novo tratamento é proporcional ao risco, no mesmo tempo, para pacientes sobre o tratamento padrão.</p>
+<p>O modelo de riscos proporcionais pode ser expresso na forma</p>
+<p><span class="math display">\[
+h_1(t)=\psi h_0(t)
+\]</span></p>
+</section>
+<section id="riscos-proporcionais" class="level3">
+<h3 class="anchored" data-anchor-id="riscos-proporcionais">Riscos proporcionais</h3>
+<p>Uma implicação da suposição de riscos proporcionais é que as correspondentes funções de sobrevivência para indivíduos no novo e no tratamento padrão são razoavelmente paralelas ao longo de todo tempo.</p>
+<p>Um cruzamento das curvas ou uma variação nas distâncias entre as curvas de diferentes categorias podem indicar ausência de proporcionalidade.</p>
+</section>
+<section id="taxa-de-risco-ou-risco-relativo" class="level3">
+<h3 class="anchored" data-anchor-id="taxa-de-risco-ou-risco-relativo">Taxa de risco ou Risco relativo</h3>
+<p>O valor de <span class="math inline">\(\psi\)</span> é uma taxa de risco ou risco relativo.</p>
+<ul>
+<li><p>Se <span class="math inline">\(\psi&lt;1\)</span>, o risco de falha em t é menor para um indivíduo sobre o novo tratamento, relativo ao indivíduo no tratamento padrão.</p></li>
+<li><p>Por outro lado, se <span class="math inline">\(\psi&gt;1\)</span>, o risco de falha em t é maior para um indivíduo no novo tratamento, ou seja o tratamento padrão indica uma melhor alternativa.</p></li>
+</ul>
+<p>Considere agora um estudo com <span class="math inline">\(\mathrm{n}\)</span> indivíduos e denote a função de risco para o i-ésimo indivíduo por <span class="math inline">\(\mathrm{h}_{\mathrm{i}}(\mathrm{t}), \mathrm{i}=1,2, \ldots, \mathrm{n}\)</span>.</p>
+<p>Seja <span class="math inline">\(h_0(t)\)</span> a função de risco para um tratamento padrão. A função de risco para o novo tratamento é então <span class="math inline">\(\psi \mathrm{h}_0(\mathrm{t})\)</span>.</p>
+<p>Como o risco relativo, <span class="math inline">\(\psi\)</span>, não pode ser negativo é conveniente considerar <span class="math inline">\(\psi=\exp (\beta)\)</span>.</p>
+</section>
+<section id="função-de-risco-por-individuo" class="level3">
+<h3 class="anchored" data-anchor-id="função-de-risco-por-individuo">Função de risco por individuo</h3>
+<p>Se <span class="math inline">\(\mathrm{x}_{\mathrm{i}}\)</span> é o valor de <span class="math inline">\(\mathrm{X}\)</span> para o i-ésimo indivíduo no estudo, a funçẵo de risco para este indivíduo pode ser escrita por</p>
+<p><span class="math display">\[
+h_i(t)=h_0(t) \exp \left\{\beta x_i\right\}
+\]</span></p>
+<p>Este modelo é o modelo de risco proporcional de Cox para a comparação de dois tratamentos.</p>
+</section>
+<section id="modelo-geral" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-geral">Modelo geral</h3>
+<p>De forma genérica, considere <span class="math inline">\(\mathrm{p}\)</span> covariáveis, de forma que $\mathrm{x}$ seja um vetor da forma <span class="math inline">\(\mathrm{x}=\left(\mathrm{x}_1, \mathrm{x}_2, \ldots, \mathrm{x}_{\mathrm{p}}\right)\)</span> ’. A função de risco para o i-ésimo indivíduo é então escrita por</p>
+<p><span class="math display">\[
+h_i(t)=h_0(t) \exp \left\{\beta_1 x_{1 i}+\beta_2 x_{2 i}+\ldots+\beta_p x_{p i}\right\}=h_0(t) \exp \left\{x^{\prime} \beta\right\}
+\]</span></p>
+<p>Este modelo é composto pelo produto de dois componentes, um não-paramétrico e o outro paramétrico.</p>
+<p>O componente não-paramétrico, <span class="math inline">\(\mathrm{h}_0(\mathrm{t})\)</span>, não é especificado e é uma função não-negativa do tempo.</p>
+</section>
+<section id="riscos-proporcionais-1" class="level3">
+<h3 class="anchored" data-anchor-id="riscos-proporcionais-1">Riscos proporcionais</h3>
+<p>Este modelo é também denominado modelo de riscos proporcionais pois a razão das taxas de falha de dois indivíduos diferentes é constante no tempo.</p>
+<p>Isto é, a razão das funções de risco para os indivíduos i e j é</p>
+<p><span class="math display">\[
+\frac{h_i(t)}{h_j(t)}=\frac{h_0(t) \exp \left(x^{\prime}, \beta\right)}{h_0(t) \exp \left(x_j^{\prime} \beta\right)}=\exp \left\{X_i^{\prime} \beta-x_j^{\prime} \beta\right\}
+\]</span></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -370,8 +370,7 @@ n= 20 </code></pre>
 <section id="teste-de-hipótese" class="level4">
 <h4 class="anchored" data-anchor-id="teste-de-hipótese">TESTE DE HIPÓTESE</h4>
 <p>Como as técnicas gráficas exigem um componente subjetivo na sua interpretação, uma outra forma de selecionar modelos é através de teste de hipótese.</p>
-<p>As hipóteses são: <span class="math inline">\(\quad \mathrm{H}_0\)</span> : O modelo é adequado.</p>
-<p><span class="math inline">\(\mathrm{H}_1\)</span> : O modelo não é adequado</p>
+<p>As hipóteses são: <span class="math inline">\(\quad \mathrm{H}_0\)</span> : O modelo é adequado <span class="math inline">\(\times\)</span> <span class="math inline">\(\mathrm{H}_1\)</span> : O modelo não é adequado</p>
 <p>Este teste é realizado utilizando-se a estatística da razão de verossimilhanças em modelos encaixados.</p>
 <p>Um modelo generalizado, tal que os modelos de interesse sejam casos particulares, deve ser identificado.</p>
 <p>(1) Ajusta-se o modelo generalizado e obtém-se o valor do logaritmo de sua função de verossimilhança <span class="math inline">\(\left(\log L\left(\hat{\theta}_G\right)\right)\)</span>.</p>
@@ -385,6 +384,161 @@ R V=2\left[\log L\left(\hat{\theta}_G\right)-\log L\left(\hat{\theta}_M\right)\r
 </section>
 <section id="modelos-de-regressão-paramétricos" class="level3">
 <h3 class="anchored" data-anchor-id="modelos-de-regressão-paramétricos">Modelos de regressão paramétricos</h3>
+<p>O efeito de covariáveis sobre o tempo de sobrevivência é estimado através de um modelo de regressão, no qual o tempo de sobrevivência é a variável resposta e <span class="math inline">\(\boldsymbol{x}=\left(x_1, x_2, \cdots, x_p\right)\)</span> é o vetor de covariáveis (variáveis independentes) possivelmente associadas ao tempo de sobrevivência.</p>
+<p>Assim o modelo terá um <u>componente aleatório</u>, que descreve probabilisticamente o comportamento do tempo de sobrevivência, e um <u>componente sistemático</u>, que descreve a relação entre os parâmetros da distribuição de probabilidade e as covariáveis.</p>
+<p>Sendo <span class="math inline">\(T\)</span> a variável aleatória que denota o tempo até a ocorrência de um evento, o modelo de regressão estabelece que a função de risco de um indivíduo no tempo <span class="math inline">\(t\)</span>, dado o vetor de covariáveis fixas <span class="math inline">\(\boldsymbol{x}\)</span> é:</p>
+<p><span class="math display">\[
+\begin{equation}
+\lambda(t \mid \boldsymbol{x})=\lambda_0(t) g(\boldsymbol{x} \boldsymbol{\beta}),
+\label{reg}
+\end{equation}
+\]</span></p>
+<p>em que <span class="math inline">\(\beta^{\prime} s\)</span> são os coeficientes a estimar, <span class="math inline">\(g(\cdot)\)</span> é uma função positiva e contínua das covariáveis e <span class="math inline">\(\lambda_0(t)\)</span> é o risco basal de um indivíduo que possui <span class="math inline">\(g(\boldsymbol{x} \boldsymbol{\beta})=1\)</span>.</p>
+<p>A razão de riscos de dois indivíduos diferentes é uma função das covariáveis e não depende do tempo. Logo, de acordo com a Equação anterior, diferentes indivíduos com covariáveis <span class="math inline">\(x_1\)</span> e <span class="math inline">\(x_1^*\)</span>, por exemplo, possuem riscos proporcionais:</p>
+<p><span class="math display">\[
+\frac{\lambda_i\left(t \mid x_1\right)}{\lambda_j\left(t \mid x_1^*\right)}=\frac{g\left(x_1 \beta_1\right)}{g\left(x_1^* \beta_1\right)} .
+\]</span></p>
+<p>Para ajustar um modelo de regressão paramétrico é necessário supor uma distribuição de probabilidade para o tempo de sobrevivência <span class="math inline">\(T\)</span>, que define a forma da função de sobrevivência, de risco e de risco acumulado.</p>
+<p>O efeito das covariáveis dos modelos de regressão paramétricos de sobrevivência são estimados por máxima verossimilhança, levando em conta as censuras.</p>
+<section id="modelo-de-regressão-exponencial" class="level4">
+<h4 class="anchored" data-anchor-id="modelo-de-regressão-exponencial">Modelo de regressão exponencial</h4>
+<p>O modelo exponencial deve ser usado quando se assume que o risco é constante ao longo do tempo.</p>
+<p>O parâmetro <span class="math inline">\(\alpha\)</span> da distribuição exponencial depende das covariáveis da seguinte forma: <span class="math inline">\(\alpha(\mathrm{x})=\exp (\beta 0+\beta 1 \mathrm{x})=\exp \left(\mathrm{x}^{\prime} \beta\right)\)</span>.</p>
+<p>Onde <span class="math inline">\(\mathrm{x}^{\prime}=\left(1, \mathrm{x}_1, \ldots, \mathrm{x}_{\mathrm{p}}\right)\)</span> e <span class="math inline">\(\beta=\left(\beta_0, \beta_1, \ldots, \beta_{\mathrm{p}}\right)\)</span>.</p>
+<p>As funções de sobrevivência e risco são dadas por:</p>
+<p><span class="math display">\[
+\begin{aligned}\lambda(t \mid \boldsymbol{x}) &amp;=\alpha(\boldsymbol{x})=\exp (\boldsymbol{x} \boldsymbol{\beta}) \\S(t \mid \boldsymbol{x}) &amp;=\exp (-\alpha(\boldsymbol{x}) t)=\exp (-\exp (\boldsymbol{x} \boldsymbol{\beta}) t)\end{aligned}
+\]</span></p>
+</section>
+</section>
+<section id="exemplo-1" class="level3">
+<h3 class="anchored" data-anchor-id="exemplo-1">Exemplo</h3>
+<p>Considere o seguinte exemplo: <span class="math inline">\(6.805\)</span> pacientes em diálise foram acompanhados durante um ano, <span class="math inline">\(1.603\)</span> morreram durante este período. Assumindo que o risco de morrer é constante ao longo do tempo, podemos estimar o efeito de idade na sobrevivência e no risco através do modelo exponencial:</p>
+<p><span class="math display">\[
+\lambda(t \mid \text{ idade } )=\exp \left(\beta_0+\beta_1 \times \text{ idade } \right) .
+\]</span></p>
+<p>As estimativas de máxima verossimilhança dos parâmetros do modelo predito foram: <span class="math inline">\(\widehat{\beta_0}=-6,136\)</span> e <span class="math inline">\(\widehat{\beta}_1=0,037\)</span>. Substituindo-se na equação por esses valores, a estimativa do risco no tempo <span class="math inline">\(t\)</span> é:</p>
+<p><span class="math display">\[
+\widehat{\lambda}(t \mid \text{idade} )=\exp (-6,136+0,037 \times \text{idade} )
+\]</span></p>
+<p>Temos então que, para cada ano a mais de vida, o risco aumenta <span class="math inline">\(\exp (0,037)=1,037\)</span> vezes, ou seja, aproximadamente <span class="math inline">\(4 \%\)</span> a cada ano. Essas estimativas também permitem, por exemplo, a comparação entre dois indivíduos submetidos à diálise, um com 30 anos e outro com 70 anos. Considerando o risco constante no tempo:</p>
+<p><span class="math display">\[
+\begin{aligned}\frac{\widehat{\lambda}(t \mid \text { idade }=70)}{\widehat{\lambda}(t \mid \text { idade }=30)} &amp;=\frac{\exp \left(\widehat{\beta_0}+\widehat{\beta_1} \times 70\right)}{\exp \left(\hat{\beta}_0+\hat{\beta}_1 \times 30\right)} \\&amp;=\exp \left(\hat{\beta}_1 \times 40\right)=4,4 .\end{aligned}
+\]</span></p>
+<p>O efeito da idade sobre o risco <span class="math inline">\(\lambda(t)\)</span> indica que o risco de um indivíduo em diálise morrer aos 70 anos é 4,4 vezes maior do que o de morrer aos 30 anos.</p>
+</section>
+<section id="modelo-de-regressão-weibull" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-de-regressão-weibull">Modelo de regressão Weibull</h3>
+<p>Pelo fato da distribuição exponencial assumir um risco constante ao longo do tempo, poucas situações na prática são adequadamente ajustadas por este modelo.</p>
+<p>O modelo de regressão Weibull tem bastante aplicação em análise de sobrevivência. A utilização da distribuição Weibull no contexto da modelagem de sobrevida significa que o tempo <span class="math inline">\(T\)</span> segue uma distribuição de Weibull.</p>
+<p>Assumindo-se a mesma forma funcional utilizada para o parâmetro <span class="math inline">\(\alpha\)</span> da distribuição exponencial, tem-se as funções de risco e sobrevivência para a regressão weibull é dada respectivamente por:</p>
+<p><span class="math display">\[
+\begin{aligned}\lambda(t \mid \boldsymbol{x}) &amp;=\gamma t^{\gamma-1} \alpha(\boldsymbol{x})^\gamma \\&amp;=\gamma t^{\gamma-1} \exp (\boldsymbol{x} \boldsymbol{\beta})^\gamma \\ \\ S(t \mid \boldsymbol{x}) &amp;=\exp \left(-(\alpha(\boldsymbol{x}) t)^\gamma\right) \\&amp;=\exp \left(-(\exp (\boldsymbol{x} \boldsymbol{\beta}) t)^\gamma\right)\end{aligned}
+\]</span></p>
+<p><strong>Observação:</strong> <em>O método de máxima verossimilhança é novamente utilizado e o uso de algum método de otimização linear (Newton Raphson, BFGS, CG, etc …) é necessário para obtenção das estimativas de máxima verossimilhança.</em></p>
+</section>
+<section id="modelo-de-regressão-lognormal" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-de-regressão-lognormal">Modelo de regressão lognormal</h3>
+<p>O modelo de regressão Lognormal é outro modelo bastante usado em análise de sobrevivência. A utilização da distribuição Lognormal no contexto da modelagem de sobrevida significa que o tempo <span class="math inline">\(T\)</span> segue uma <strong>distribuição</strong> <strong>lognormal</strong>.</p>
+<p>Como nos modelos exponencial e weibull, o parâmetro <span class="math inline">\(\mu\)</span> depende das covariáveis <span class="math inline">\(\left(\mu(\mathrm{x})=\exp \left\{\mathrm{x}^{\prime} \beta\right\}\right)\)</span>. As funções de sobrevivência e risco para o modelo Lognormal são dadas por</p>
+<p><span class="math display">\[
+S(t \mid x)=1-\phi\left(\frac{\ln (t)-\mu(x)}{\sigma}\right)=1-\phi\left(\frac{\ln (t)-\exp \left(x^{\prime} \beta\right)}{\sigma}\right),
+\]</span></p>
+<p><span class="math display">\[
+\lambda(t)=\frac{f(t)}{S(t)}.
+\]</span></p>
+<section id="interpretação-dos-parâmetros" class="level4">
+<h4 class="anchored" data-anchor-id="interpretação-dos-parâmetros">Interpretação dos parâmetros</h4>
+<p>Uma proposta de interpretação foi proposta por <strong>Hosmer e Lemeshow (1999)</strong>.</p>
+<p>É possível mostrar que a razão dos tempos medianos é dada por</p>
+<p><span class="math display">\[
+\frac{t_{0.5}(x=1, \hat{\beta})}{t_{0.5}(x=0, \hat{\beta})}=e^{\hat{\beta}}
+\]</span></p>
+<p>Os modelos apresentados garantem esta proporcionalidade para todos os percentis. Esta interpretação pode ser estendida para variáveis categóricas e contínuas.</p>
+</section>
+</section>
+<section id="testes-de-hipóteses" class="level2">
+<h2 class="anchored" data-anchor-id="testes-de-hipóteses">Testes de Hipóteses</h2>
+<section id="teste-de-wald" class="level3">
+<h3 class="anchored" data-anchor-id="teste-de-wald">Teste de Wald</h3>
+<p>A estatística de Wald testa a significância de covariáveis uma a uma, ou seja, testa a hipótese nula <span class="math inline">\(\mathrm{H}_0\)</span> de que o parâmetro <span class="math inline">\(\beta_j\)</span> da regressão é igual a zero contra a hipótese alternativa de que é diferente de zero. Esta estatística é definida por:</p>
+<p><span class="math display">\[
+z_j=\frac{\widehat{\beta}_j}{e p\left(\widehat{\beta}_j\right)},
+\]</span></p>
+<p>em que <span class="math inline">\(e p\left(\widehat{\beta}_j\right)\)</span> é o erro padrão da estimativa de <span class="math inline">\(\beta_j\)</span>. Sob a hipótese nula, tem-se que a estatística <span class="math inline">\(z_j\)</span> segue uma distribuição normal padrão.</p>
+</section>
+<section id="teste-da-razão-de-verossimilhanças-análise-da-função-desvio" class="level3">
+<h3 class="anchored" data-anchor-id="teste-da-razão-de-verossimilhanças-análise-da-função-desvio">Teste da razão de verossimilhanças (Análise da função desvio)</h3>
+<p>Esta análise pode ser utilizada tanto para obter uma estatística global do ajuste de modelo, como para comparar modelos.</p>
+<p>A hipótese nula de que o modelo se ajusta aos dados pode ser testada pela estatística:</p>
+<p><span class="math display">\[
+\mathrm{D}=2\left(\mathrm{l}_{\text {modelo }}-\mathrm{l}_{\text {nulo }}\right)
+\]</span></p>
+<p>Em que <span class="math inline">\(l_{\text {modelo }}\)</span> e <span class="math inline">\(l_{\text {nulo }}\)</span> são respectivamente, o logaritmo da função de verossimilhança do modelo com as covariáveis e o logaritmo da função de verossimilhança do modelo nulo (sem covariáveis).</p>
+<p>De tal forma que a estatística <span class="math inline">\(\mathrm{D}\)</span> segue uma distribuição <span class="math inline">\(\chi^2\)</span> com número de graus de liberdade igual ao número de covariáveis do modelo.</p>
+<section id="teste-para-modelos-encaixados-weibull-x-exponencial" class="level4">
+<h4 class="anchored" data-anchor-id="teste-para-modelos-encaixados-weibull-x-exponencial">Teste para modelos encaixados (Weibull x Exponencial)</h4>
+<p>Podemos extender essa análise para comparar um modelo com <strong>distribuição exponencial</strong> e outro com <strong>distribuição Weibull</strong>.</p>
+<p>Isso equivale a testar a hipótese de que <span class="math inline">\(\gamma=1\)</span>.</p>
+<p>A estatística de teste, que tem distribuição <u>qui-quadrado</u> com um grau de liberdade, é dada por</p>
+<p><span class="math display">\[
+\mathrm{D} = 2 (l_{weibull} - l_{exponencial})  \sim \chi^2_{(1)}
+\]</span>Onde <span class="math inline">\(l_{weibull}\)</span> e <span class="math inline">\(l_{exponencial}\)</span> são os logaritmos da função de verossimilhança do modelo nulo weibull e do modelo nulo exponencial.</p>
+</section>
+<section id="análise-função-desvio-para-seleção-de-modelos" class="level4">
+<h4 class="anchored" data-anchor-id="análise-função-desvio-para-seleção-de-modelos">Análise função desvio para seleção de modelos</h4>
+<p>O modelo com maior número de variáveis deve conter o modelo com menos covariáveis.</p>
+<p>A estatística de teste é dada por</p>
+<p><span class="math display">\[
+\mathrm{D}=2( l_{maior} - l_{menor}) \sim \chi^2_{(\nu)}
+\]</span></p>
+<p>em que <span class="math inline">\(l_{menor}\)</span> é o logaritmo da função de verossimilhança do modelo com menos parâmetros, <span class="math inline">\(l_{maior}\)</span> é o logaritmo do modelo com mais parâmetros e <span class="math inline">\(\nu\)</span> é a diferença da quantidade de covariáveis dos dois modelos.</p>
+</section>
+<section id="análise-de-resíduos" class="level4">
+<h4 class="anchored" data-anchor-id="análise-de-resíduos">Análise de resíduos</h4>
+<p>No modelo de regressão linear usual, uma análise gráfica dos resíduos é usada para avaliar a adequação do modelo ajustado. Dessa forma, os modelos de regressão para sobrevida também vão seguir a mesma lógica.</p>
+<p>A definição de uma medida de resíduo no contexto de sobrevivência não é tão clara e direta como em modelos lineares.</p>
+<p>Diversos resíduos têm sido propostos na literatura para avaliar o ajuste do modelo. Técnicas gráficas, que fazem uso dos diferentes resíduos propostos, são, em particular, bastante utilizadas para examinar diferentes aspectos do modelo.</p>
+</section>
+<section id="resíduos-de-cox-snell" class="level4">
+<h4 class="anchored" data-anchor-id="resíduos-de-cox-snell">Resíduos de Cox-Snell</h4>
+<p>Os resíduos de Cox-Snell (1968) auxiliam a examinar o ajuste global do modelo final. Esses resíduos são quantidades calculadas por</p>
+<p><span class="math display">\[
+\hat{e_i}=\widehat{\Lambda}\left(t_i \mid \mathbf{x}_i\right)
+\]</span></p>
+<p>em que <span class="math inline">\(\widehat{\Lambda}(\cdot)\)</span> é a função de risco acumulada obtida do modelo ajustado. Para os modelos de regressão exponencial, Weibull e log-normal, os resíduos de Cox-Snell são dados, respectivamente, por</p>
+<p><span class="math display">\[
+\begin{aligned} \text { Exponencial: } \hat{e_i} &amp;=\left[t_i \exp \left\{-\mathbf{x}_i \widehat{\boldsymbol{\beta}}\right\}\right], \\ \\\text { Weibull: } \hat{e_i} &amp;=\left[t_i \exp \left\{-\mathbf{x}_i \widehat{\boldsymbol{\beta}}\right\}\right]^{1 / \widehat{\sigma}=\hat{\gamma}}, \\ \\
+\log \text {-normal: } \hat{e_i} &amp;=-\log \left[1-\Phi\left(\frac{\log \left(t_i\right)-\mathbf{x}_i \widehat{\boldsymbol{\beta}}}{\hat{\sigma}}\right)\right] \text {. }
+\end{aligned}
+\]</span></p>
+<p>Os resíduos <span class="math inline">\(\hat{e}_i\)</span>, que são estimativas dos erros que vêm de uma população homogênea, devem seguir uma distribuição exponencial padrão <strong>(Lawless, 1980)</strong>. Desse modo, o gráfico <span class="math inline">\(\hat{e}_i\)</span> versus <span class="math inline">\(\widehat{\Lambda}\left(\hat{e}_i\right)\)</span>, com <span class="math inline">\(\widehat{\Lambda}\left(\hat{e}_i\right)\)</span> o risco acumulado dos <span class="math inline">\(\hat{e}_i\)</span> ’s obtido pelo estimador de Nelson-Aalen, deve ser uma reta com inclinação 1 caso o modelo se ajuste bem aos dados.</p>
+<p>O gráfico das curvas de sobrevivência desses resíduos, obtidas por Kaplan-Meier e pelo modelo ajustado, também auxilia na verificação da qualidade do modelo. Quanto mais próximas elas se apresentarem, melhor é considerado o ajuste do modelo aos dados.</p>
+</section>
+<section id="resíduo-martingale" class="level4">
+<h4 class="anchored" data-anchor-id="resíduo-martingale">Resíduo Martingale</h4>
+<p>Para os modelos de regressão paramétricos, a definição de resíduos martingale é dada por:</p>
+<p><span class="math display">\[
+\hat{M}_i=\delta_i-\hat{e}_i
+\]</span></p>
+<p>Em que <span class="math inline">\(\delta_i\)</span> é a variável indicadora de censura e <span class="math inline">\(\hat e_i\)</span> os resíduos de Cox-Snell.</p>
+<p>Esses resíduos, são vistos como uma estimativa do número de falhas em excesso observada nos dados mas não predito pelo modelo.</p>
+<p>São usados, em geral, para examinar a melhor forma funcional (linear, quadrática,…) para uma dada covariável em um modelo de regressão assumido para os dados sob estudo.</p>
+<p>Se a curva suavizada obtida no gráfico: resíduo x variável for linear, nenhuma transformação na variável é necessária.</p>
+</section>
+<section id="resíduo-deviance" class="level4">
+<h4 class="anchored" data-anchor-id="resíduo-deviance">Resíduo Deviance</h4>
+<p>Este tipo de resíduo é uma tentativa de fazer com que os resíduos martingale sejam mais simétricos em torno de zero.</p>
+<p>Os resíduos deviance nos modelos de regressão paramétricos são definidos por:</p>
+<p><span class="math display">\[
+\hat{d}_i=\sin a l\left(\hat{m}_i\right)\left[-2\left(\hat{m}_i+\delta_i \log \left(\delta_i-\hat{m}_i\right)\right)\right]^{1 / 2}
+\]</span></p>
+<p>Estes resíduos facilitam em geral a detecção de pontos atípicos (<em>outliers</em>).</p>
+<p>Se o modelo for apropriado esses resíduos devem apresentar um comportamento aleatório em torno de zero.</p>
+<p>Gráficos dos resíduos martingale ou deviance contra o tempo, ou contra o índice da observação, fornecem uma maneira de verificar a adequação do modelo ajustado.</p>
+<p>Uma observação importante é que estes métodos gráficos devem ser usados para descartar modelos claramente inapropriados e não para mostrar que um particular modelo é melhor que o outro.</p>
+</section>
+</section>
 </section>
 
 </main>

@@ -762,6 +762,143 @@ grupos=2 14     6.00     3.63      1.54      3.43
 </div>
 </section>
 </section>
+<section id="métodos-paramétricos-para-a-análise-de-dados-de-sobrevivência" class="level3">
+<h3 class="anchored" data-anchor-id="métodos-paramétricos-para-a-análise-de-dados-de-sobrevivência">MÉTODOS PARAMÉTRICOS PARA A ANÁLISE DE DADOS DE SOBREVIVÊNCIA</h3>
+<p>Nesta abordagem paramétrica, para estimar as funções básicas da análise de sobrevida, assume-se que o tempo de falha T segue uma distribuição conhecida de probabilidade.</p>
+<p><strong>PERGUNTA:</strong> Que tipo de distribuição de probabilidade poderia representar T?</p>
+<p><strong>LEMBRANDO:</strong></p>
+<p>I. T é uma V.A. contínua não-negativa.</p>
+<p>II. T apresenta forte assimetria.</p>
+<p>Dessa forma, a distribuição normal, que permite valores negativos, não é adequada para modelar o tempo de sobrevida.</p>
+<p>Alguns modelos mais utilizados, por se adaptarem a uma grande variedade de situações, são: <strong>exponencial, weibull e lognormal</strong>.</p>
+</section>
+<section id="distribuições-básicas" class="level3">
+<h3 class="anchored" data-anchor-id="distribuições-básicas">Distribuições básicas</h3>
+<ol type="1">
+<li>Distribuição Exponencial</li>
+</ol>
+<p>: Em termos matemáticos, a distribuição exponencial é um dos modelos probabilísticos mais simples para descrever o tempo de vida .</p>
+<p>Esta distribuição apresenta um único parâmetro e é a única que se caracteriza por ter uma função de risco constante.</p>
+<p>É bastante utilizada para descrever o tempo de vida de certos produtos, bem como, o tempo de vida e remissão em doenças crônicas e infecciosas.</p>
+<p><span class="math inline">\(\therefore\)</span> A função densidade de probabilidade é dada por:</p>
+<p><span class="math display">\[
+f(t)=\lambda \exp (-\lambda t), \lambda&gt;0
+\]</span></p>
+<p>Em que o parâmetro <span class="math inline">\(\lambda\)</span> tem a mesma unidade do tempo de vida T.</p>
+<p>A função de sobrevivência é dada por:</p>
+<p><span class="math display">\[
+S(t)=e^{-(\lambda t)}
+\]</span></p>
+<p>As funções de risco é dada por:</p>
+<p><span class="math display">\[
+h(t)=\frac{f(t)}{S(t)}=\frac{\lambda e^{-\lambda t}}{e^{-\lambda t}}=\lambda
+\]</span></p>
+<section id="ilustração-das-funções-de-sobrevivência-segundo-o-modelo-exponencial." class="level4">
+<h4 class="anchored" data-anchor-id="ilustração-das-funções-de-sobrevivência-segundo-o-modelo-exponencial.">ILUSTRAÇÃO DAS FUNÇÕES DE SOBREVIVÊNCIA SEGUNDO O MODELO EXPONENCIAL.</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/ex_curvas_exponencial.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Curvas para distribuição Exponencial</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="distribuição-weibull" class="level4">
+<h4 class="anchored" data-anchor-id="distribuição-weibull">Distribuição Weibull</h4>
+<p>A distribuição Weibull é uma generalização da distribuição exponencial.</p>
+<p>É bastante utilizada em aplicações práticas por apresentar uma grande variedade de formas: a sua função de risco é monótona, isto é, ela é crescente, decrescente ou constante.</p>
+<p>A distribuição Weibull é uma das mais utilizada para modelar tempos de sobrevida, particularmente em estudos nas áreas biomédica e industrial.</p>
+<p>Alguns exemplos: tempo até a ocorrência de tumores, estudo de mortalidade por causas específicas e tempo de incubação do HIV.</p>
+<p>A f.d.p. de uma variável aleatória T com distribuição de Weibull é dada por:</p>
+<p><span class="math display">\[
+f(t)=\lambda \gamma(\lambda t)^{\gamma-1} e^{-(\lambda t)^\gamma}
+\]</span></p>
+<p>O parâmetro de forma, <span class="math inline">\(\gamma\)</span> e o de escala, <span class="math inline">\(\lambda\)</span> são ambos positivos.</p>
+<p>O parâmetro <span class="math inline">\(\lambda\)</span> tem a mesma unidade de medida do tempo e <span class="math inline">\(\gamma\)</span> não tem unidade de medida.</p>
+<p>Função de sobrevivência:</p>
+<p><span class="math display">\[
+S(t)=\exp \left(-(\lambda t)^\gamma\right)
+\]</span></p>
+<p>Função de risco:</p>
+<p><span class="math display">\[
+h(t)=\lambda \gamma(\lambda t)^{\gamma-1}
+\]</span></p>
+<p>Observe que para <span class="math inline">\(\gamma&gt;1\)</span> : A função de risco é estritamente crescente.</p>
+<p><span class="math inline">\(\gamma&lt;1\)</span> : A função de risco é estritamente decrescente.</p>
+<p><span class="math inline">\(\gamma=1\)</span> : A função de risco é constante, equivalendo ao modelo exponencial.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/curvas_weibull.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Curvas para a distribuição Weibull</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="distribuição-log-normal" class="level3">
+<h3 class="anchored" data-anchor-id="distribuição-log-normal">Distribuição Log normal</h3>
+<p>É muito utilizada para caracterizar tempos de vida de produtos e indivíduos.</p>
+<p>Alguns exemplos: fadiga de metal, semicondutores e pacientes com leucemia.</p>
+<p>Existe uma relação entre as distribuições lognormal e normal que facilita a apresentação e análise de dados.</p>
+<p>O logaritmo de uma variável com distribuição lognormal segue uma distribuição normal com parâmetros <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\sigma^2\)</span>.</p>
+<p>A f.d.p. de uma variável aleatória T com distribuição lognormal é dada por:</p>
+<p><span class="math display">\[
+f(t)=\frac{1}{t \sigma \sqrt{2 \pi}} \exp \left\{-\frac{1}{2}\left(\frac{\ln (t)-\mu}{\sigma}\right)^2 \right\}, t&gt;0
+\]</span></p>
+<p>- A função de sobrevivência de uma variável lognormal não apresenta uma forma analítica explícita e é representada por:</p>
+<p><span class="math display">\[
+S(t)=1-F(t)=1-\Phi\left(\frac{\ln (t)-\mu}{\sigma}\right)
+\]</span></p>
+<p>em que <span class="math inline">\(\Phi()\)</span> é a função de distribuição acumulada de uma normal padrão.</p>
+<p><span class="math display">\[
+h(t)=\frac{f(t)}{S(t)}
+\]</span></p>
+<p>A popularidade dessa distribuição é em parte devido ao fato de que o valor acumulado de <span class="math inline">\(\ln (\mathrm{t})\)</span> pode ser obtido da tabela da distribuição normal padrão e o correspondente valor de t é então encontrado pela aplicação de antilogaritmo.</p>
+<p><img src="images/curvas_lognormal.png" class="img-fluid"></p>
+<p>Observe que as funções de risco não são monótonas como as da distribuição Weibull. Elas crescem, atingem um valor máximo e depois decrescem.</p>
+<section id="procedimento-para-a-escolha-de-uma-distribuição" class="level4">
+<h4 class="anchored" data-anchor-id="procedimento-para-a-escolha-de-uma-distribuição">PROCEDIMENTO PARA A ESCOLHA DE UMA DISTRIBUIÇÃO</h4>
+<p>O método de máxima verossimilhança somente deve ser aplicado após ter sido definido um modelo probabilístico adequado para os dados. Se um modelo for usado inadequadamente, toda a análise estatística fica comprometida e consequentemente as respostas às perguntas de interesse ficam distorcidas.</p>
+<p>A idéia empírica consiste em ajustar os modelos probabilísticos típicos para dados de tempos de vida e com base na comparação entre valores estimados e observados, decidir qual deles “melhor” se ajusta aos dados amostrais.</p>
+<p>A escolha da “melhor” distribuição pode ser feita por meio de <strong>técnicas gráficas</strong> ou <strong>testes de hipóteses.</strong></p>
+<p><strong>MÉTODO GRÁFICO I</strong></p>
+<ul>
+<li><p>Este método consiste na comparação da função de sobrevivência do modelo proposto com o estimador de Kaplan-Meier.</p></li>
+<li><p>Os modelos propostos são ajustados ao conjunto de dados e, a partir das estimativas dos parâmetros de cada modelo, estimam-se suas respectivas funções de sobrevivência.</p></li>
+<li><p>Para o conjunto de dados obtém-se também, a estimativa de Kaplan-Meier para a função de sobrevivência <span class="math inline">\((\hat{S}(t))\)</span>.</p></li>
+<li><p>A comparação das funções de sobrevivência estimadas para cada modelo proposto com a função obtida pelo estimador de Kaplan-Meier pode ser feita de duas maneiras.</p></li>
+</ul>
+<p>Uma forma de comparar as funções é construindo os gráficos das função de sobrevivência estimada via Kaplan-Meier <span class="math inline">\((\hat{S}(t))\)</span> versus a funcão de sobrevivência estimada para cada modelo proposto <span class="math inline">\(\left(\hat{S}_M(t)\right)\)</span></p>
+<p>O ” melhor” modelo é então aquele cujos pontos da função de sobrevivência estimada estiverem mais próximos dos valores obtidos pelo estimador de Kaplan-Meier. Isto é, o melhor modelo é aquele cujos pontos no gráfico estiverem mais próximos da reta <span class="math inline">\(\mathbf{y}=\mathrm{x}\)</span>, com <span class="math inline">\(\mathrm{x}=\hat{S}(t)\)</span> e <span class="math inline">\(\mathrm{y}=\hat{\hat{S}_M(t)}\)</span></p>
+<p>Uma outra forma de comparação é colocar no mesmo gráfico as curvas <span class="math inline">\(\hat{S}(t)\)</span> versus <span class="math inline">\(t\)</span> e <span class="math inline">\(\hat{S}_M(t)\)</span> versus <span class="math inline">\(t\)</span>, para cada modelo proposto.</p>
+<p>O modelo (ou os modelos) adequado é aquele em que sua curva de sobrevivência se aproximar daquela do Estimador de Kaplan-Meyer. Esta comparação também pode ser feita através de <span class="math inline">\(\mathrm{H}(\mathrm{t})\)</span>.</p>
+<p>Podem existir situações em que <u>nenhum desses modelos sejam adequado</u>. Estas situações exigem modelos paramétricos mais flexíveis ou uma análise estatística toda baseada em técnicas não-paramétricas. Em situações em que o tamanho da amostra é pequeno ou ocorre um número pequeno de falhas as técnicas gráficas podem indicar que os modelos são igualmente bons.</p>
+</section>
+<section id="teste-de-hipótese" class="level4">
+<h4 class="anchored" data-anchor-id="teste-de-hipótese">TESTE DE HIPÓTESE</h4>
+<p>Como as técnicas gráficas exigem um componente subjetivo na sua interpretação, uma outra forma de selecionar modelos é através de teste de hipótese.</p>
+<p>As hipóteses são: <span class="math inline">\(\quad \mathrm{H}_0\)</span> : O modelo é adequado.</p>
+<p><span class="math inline">\(\mathrm{H}_1\)</span> : O modelo não é adequado</p>
+<p>Este teste é realizado utilizando-se a estatística da razão de verossimilhanças em modelos encaixados.</p>
+<p>Um modelo generalizado, tal que os modelos de interesse sejam casos particulares, deve ser identificado.</p>
+<p>(1) Ajusta-se o modelo generalizado e obtém-se o valor do logaritmo de sua função de verossimilhança <span class="math inline">\(\left(\log L\left(\hat{\theta}_G\right)\right)\)</span>.</p>
+<p>(2) Ajusta-se o modelo de interesse e obtém-se o valor do logaritmo de sua função de verossimilhança <span class="math inline">\(\left(\log L\left(\hat{\theta}_M\right)\right)\)</span>.</p>
+<p>(3) Calcula-se a estatística da razão de verossimilhanças.</p>
+<p><span class="math display">\[
+R V=2\left[\log L\left(\hat{\theta}_G\right)-\log L\left(\hat{\theta}_M\right)\right]
+\]</span></p>
+<p>Sob <span class="math inline">\(\mathrm{H}_0\)</span> esta estatística tem distribuição Qui-Quadrado com graus de liberdade igual a diferença do número de parâmetros dos modelos sendo comparados. Este teste é usualmente realizado utilizando-se a distribuição gama generalizada que apresenta os modelos exponencial, weibull e lognormal como <strong>modelos encaixados</strong>.</p>
+</section>
+<section id="ajuste-no-r" class="level4">
+<h4 class="anchored" data-anchor-id="ajuste-no-r">Ajuste no R</h4>
+<p>Estimação Paramétrica da curva de sobrevivência:</p>
+<p><code>ajuste&lt;-survreg(Surv(tempo, censura)~1, dist="nome_distribuicao")</code></p>
+<p>Obtenção das estimativas de máxima verossimilhança dos parâmetros:</p>
+<p>Exponencial: <code>lambda&lt;-exp(ajuste$coefficients[1])</code></p>
+<p>Weibull: <code>lambda&lt;-exp(ajuste$coefficients[1])</code> e <code>gamma&lt;-1/ajuste$scale</code></p>
+<p>Obtenção das estimativas das funções de sobrevivência via modelos:</p>
+<p>Exponencial: <code>ste&lt;- exp(-tempos*lambda)</code></p>
+<p>Weibull: <code>stw&lt;- exp(-(tempos*lambda)^gamma)</code></p>
+</section>
+</section>
 </section>
 </section>
 
