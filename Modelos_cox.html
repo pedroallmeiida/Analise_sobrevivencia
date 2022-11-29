@@ -16,6 +16,69 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -118,6 +181,98 @@ h_i(t)=h_0(t) \exp \left\{\beta_1 x_{1 i}+\beta_2 x_{2 i}+\ldots+\beta_p x_{p i}
 <p><span class="math display">\[
 \frac{h_i(t)}{h_j(t)}=\frac{h_0(t) \exp \left(x^{\prime}, \beta\right)}{h_0(t) \exp \left(x_j^{\prime} \beta\right)}=\exp \left\{X_i^{\prime} \beta-x_j^{\prime} \beta\right\}
 \]</span></p>
+</section>
+<section id="resíduos-de-schoenfeld" class="level2">
+<h2 class="anchored" data-anchor-id="resíduos-de-schoenfeld">Resíduos de Schoenfeld</h2>
+<p>Uma das formas de checar se a suposição de proporcionalidade é violada, é através da análise de resíduos de Schoenfeld.</p>
+<p>Considere que se o <span class="math inline">\(i\)</span>-ésimo indivíduo com vetor de covariáveis <span class="math inline">\(\mathrm{x}_{\mathrm{i}}=\left(\mathrm{x}_{1 \mathrm{i}}, \ldots, \mathrm{x}_{\mathrm{pi}}\right)^{\top}\)</span> é observado falhar. Tem-se para este indivíduo um vetor de resíduos de Schoenfeld <span class="math inline">\(\boldsymbol{r}_i=\left(r_{i 1}, \ldots r_{i p}\right)\)</span> dado por:</p>
+<p><span class="math display">\[
+r_{i q}=x_{i q}-\frac{\sum\limits_{j \in R\left(t_t\right)} x_{j q} \exp \left\{x_j^{\prime} \hat{\beta}\right\}}{\sum\limits_{j \in R\left(t_t\right)} \exp \left\{x_j^{\prime} \hat{\beta}\right\}}
+\]</span></p>
+<p>Estes resíduos são interpretados como a diferença entre os valores observados de covariáveis de um indivíduo com tempo de ocorrência do evento <span class="math inline">\(t_i\)</span> e os valores esperados em <span class="math inline">\(t_i\)</span> dado o grupo de risco <span class="math inline">\(\mathrm{R}\left(\mathrm{t}_{\mathrm{i}}\right)\)</span>. O número de vetores de resíduos é igual ao número de covariáveis ajustadas no modelo.</p>
+<p><strong>Obs:</strong> Estes resíduos são definidos apenas nos tempos de falha, ou seja a censura não é considerada nesse caso.</p>
+<p>Através do gráfico dos <strong>resíduos padronizados de Schoenfeld</strong> contra o tempo é possível verificar a existência ou não de proporcionalidade. Ou seja, se a suposição de riscos proporcionais for satisfeita não deverá existir nenhuma tendência sistemática no gráfico.</p>
+<p>Além da identificação através do gráfico, também é possível realizar um teste de hipótese para verificar a hipótese de que não existe correlação entre o tempo de sobrevivência transformado e os resíduos padronizados.</p>
+<section id="exemplo-no-r" class="level4">
+<h4 class="anchored" data-anchor-id="exemplo-no-r">Exemplo no R</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Bibliotecas</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">### Dataset</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">=</span> <span class="fu">read.csv</span>( <span class="st">'C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">pedro</span><span class="sc">\\</span><span class="st">Dropbox</span><span class="sc">\\</span><span class="st">disciplinas_UEPB</span><span class="sc">\\</span><span class="st">Analise_sobrevivencia</span><span class="sc">\\</span><span class="st">Exemplos_R</span><span class="sc">\\</span><span class="st">dialise.csv'</span> )</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dados, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   unidade idade inicio fim status tempo grande causa cdiab crim congenita
+1      120    59     35  36      0     1      1   hip     0    0         0
+2      120    49     38  41      0     3      1   hip     0    0         0
+3      120    49     22  40      0    18      1   out     0    0         0
+4      120    52     21  23      0     2      1   hip     0    0         0
+5      120    89     41  42      1     1      1   hip     0    0         0
+6      120    72     33  36      1     3      1   ren     0    1         0
+7      120    49     24  31      1     7      1   ren     0    1         0
+8      120    31     10  26      1    16      1   ren     0    1         0
+9      120    47     37  39      1     2      1   out     0    0         0
+10     120    34     22  40      1    18      1   hip     0    0         0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod_cox <span class="ot">=</span> <span class="fu">coxph</span>( <span class="fu">Surv</span>(tempo, status)<span class="sc">~</span>idade <span class="sc">+</span> grande <span class="sc">+</span> causa , <span class="at">data =</span> dados  )</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_cox)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(tempo, status) ~ idade + grande + causa, 
+    data = dados)
+
+  n= 6805, number of events= 1603 
+
+             coef exp(coef) se(coef)      z Pr(&gt;|z|)    
+idade    0.034014  1.034599 0.001753 19.400  &lt; 2e-16 ***
+grande   0.179115  1.196158 0.063469  2.822  0.00477 ** 
+causadia 1.023200  2.782084 0.229266  4.463 8.08e-06 ***
+causahip 0.714183  2.042517 0.227104  3.145  0.00166 ** 
+causaout 0.765846  2.150814 0.233154  3.285  0.00102 ** 
+causaren 0.746684  2.109991 0.231054  3.232  0.00123 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+         exp(coef) exp(-coef) lower .95 upper .95
+idade        1.035     0.9666     1.031     1.038
+grande       1.196     0.8360     1.056     1.355
+causadia     2.782     0.3594     1.775     4.360
+causahip     2.043     0.4896     1.309     3.188
+causaout     2.151     0.4649     1.362     3.397
+causaren     2.110     0.4739     1.342     3.319
+
+Concordance= 0.652  (se = 0.007 )
+Likelihood ratio test= 481.8  on 6 df,   p=&lt;2e-16
+Wald test            = 448  on 6 df,   p=&lt;2e-16
+Score (logrank) test = 461.7  on 6 df,   p=&lt;2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">### testando proporcionalidade</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>test.ph <span class="ot">=</span> <span class="fu">cox.zph</span>(mod_cox)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>test.ph</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       chisq df       p
+idade   4.83  1 0.02803
+grande  7.06  1 0.00787
+causa  12.21  4 0.01584
+GLOBAL 24.72  6 0.00038</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Plotando os residuos de schoenfeld</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(test.ph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Modelos_cox_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">### analise de residuos deviance</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxdiagnostics</span>( mod_cox, <span class="at">type =</span> <span class="st">'deviance'</span>, <span class="at">linear.predictions =</span> F )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Modelos_cox_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
 </section>
 
 </main>
